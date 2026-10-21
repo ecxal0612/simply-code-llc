@@ -39,13 +39,3 @@ Opinionated **Next.js 16** starter: Auth.js v5 (JWT + Google + credentials), Dri
 ## When this folder is a product copy
 
 Update `package.json` name, `.env.example` / `DB_TABLE_PREFIX`, and `NEXT_PUBLIC_APP_NAME`. Prefer **`db:push`** until you commit app-specific migrations. Fix generic bugs here in **simplycode-boiler** first, then port to product repos.
-
-<!-- BEGIN:nextjs-agent-rules -->
-
-## This is NOT the Next.js you know
-
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
-
-This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
-
-<!-- END:nextjs-agent-rules -->
