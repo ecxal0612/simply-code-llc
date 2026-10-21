@@ -14,7 +14,8 @@ export default async function HomePage() {
         <ThemeToggle />
       </div>
       <p className="text-muted-foreground leading-relaxed">
-        We design and build reliable software for growing businesses.
+        We design and build reliable software for growing businesses. This site is the home for Simply Code LLC —
+        services, work, and client tools will live here.
       </p>
       <div className="flex flex-wrap gap-3">
         {session?.user ? (
