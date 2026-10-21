@@ -1,6 +1,7 @@
 import { auth } from "~/lib/auth";
 import { DashboardPosts } from "~/app/dashboard/dashboard-posts";
 import { DashboardNote } from "~/app/dashboard/dashboard-note";
+import { PostForm } from "~/app/dashboard/post-form";
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -14,6 +15,7 @@ export default async function DashboardPage() {
         </p>
       </div>
       <DashboardNote />
+      <PostForm />
       <DashboardPosts />
     </div>
   );

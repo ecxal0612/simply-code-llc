@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
   integer,
   pgEnum,
@@ -90,5 +90,31 @@ export const posts = createTable("posts", {
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
 });
+
+/** Files uploaded to Uploadthing and attached to a post. */
+export const images = createTable("images", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  url: text("url").notNull(),
+  name: varchar("name", { length: 256 }),
+  size: integer("size"),
+  mimeType: varchar("mime_type", { length: 255 }),
+  postId: uuid("post_id")
+    .notNull()
+    .references(() => posts.id, { onDelete: "cascade" }),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+});
+
+export const postsRelations = relations(posts, ({ many }) => ({
+  images: many(images),
+}));
+
+export const imagesRelations = relations(images, ({ one }) => ({
+  post: one(posts, {
+    fields: [images.postId],
+    references: [posts.id],
+  }),
+}));
 
 export type UserRole = (typeof userRoleEnum.enumValues)[number];
