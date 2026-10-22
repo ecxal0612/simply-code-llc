@@ -1,6 +1,7 @@
 import { auth } from "~/lib/auth";
 import { DashboardPosts } from "~/app/dashboard/dashboard-posts";
 import { DashboardNote } from "~/app/dashboard/dashboard-note";
+import { HomepageImagesManager } from "~/app/dashboard/homepage-images-manager";
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -13,6 +14,7 @@ export default async function DashboardPage() {
           Role: <code className="rounded bg-muted px-1.5 py-0.5">{session?.user.role}</code>
         </p>
       </div>
+      <HomepageImagesManager />
       <DashboardNote />
       <DashboardPosts />
     </div>

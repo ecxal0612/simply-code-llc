@@ -91,20 +91,26 @@ export const posts = createTable("posts", {
     .notNull(),
 });
 
-/** Files uploaded to Uploadthing and attached to a post. */
-export const images = createTable("images", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  url: text("url").notNull(),
-  name: varchar("name", { length: 256 }),
-  size: integer("size"),
-  mimeType: varchar("mime_type", { length: 255 }),
-  postId: uuid("post_id")
-    .notNull()
-    .references(() => posts.id, { onDelete: "cascade" }),
-  createdAt: timestamp("created_at", { withTimezone: true })
-    .default(sql`CURRENT_TIMESTAMP`)
-    .notNull(),
-});
+/** Uploadthing files — post attachments (`postId`) or homepage slots (`slot`). */
+export const images = createTable(
+  "images",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    url: text("url").notNull(),
+    name: varchar("name", { length: 256 }),
+    size: integer("size"),
+    mimeType: varchar("mime_type", { length: 255 }),
+    postId: uuid("post_id").references(() => posts.id, { onDelete: "cascade" }),
+    /** Stable homepage key, e.g. `home.hero`, `home.team.0`. */
+    slot: varchar("slot", { length: 64 }),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+  },
+  (table) => ({
+    slotUnique: uniqueIndex(`${env.DB_TABLE_PREFIX}_images_slot_unique`).on(table.slot),
+  }),
+);
 
 export const postsRelations = relations(posts, ({ many }) => ({
   images: many(images),
