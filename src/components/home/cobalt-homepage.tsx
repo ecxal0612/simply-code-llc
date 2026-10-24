@@ -11,7 +11,6 @@ import {
   Workflow,
 } from "lucide-react";
 import { CobaltSiteHeader } from "~/components/home/cobalt-site-header";
-import { ContactInquiryForm } from "~/components/home/contact-inquiry-form";
 import { HeroParticleField } from "~/components/home/hero-particle-field";
 import { HomeNavigationEffects } from "~/components/home/home-navigation-effects";
 import { Button } from "~/components/ui/button";
@@ -257,7 +256,13 @@ export function CobaltHomepage({
             <p className="mt-8 text-sm text-zinc-500">{c.contact.supporting}</p>
           </div>
           <div className="bg-zinc-900/50 p-8 md:p-16">
-            <ContactInquiryForm />
+            <div className="space-y-4">
+              <p className="text-lg font-medium">Start a project</p>
+              <p className="text-sm text-zinc-400">
+                Email us at <span className="text-zinc-100">hello@simplycode.com</span> or use the &quot;Let&apos;s Talk&quot;
+                button above to get started.
+              </p>
+            </div>
           </div>
         </div>
       </section>
