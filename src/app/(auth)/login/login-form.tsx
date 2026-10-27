@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
@@ -10,15 +11,26 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { loginSchema, type LoginInput } from "~/schemas/auth";
 
+const accessRevokedMessage =
+  "Your dashboard access has been removed. Contact an administrator if you need access again.";
+
 export function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") ?? "/dashboard";
+  const accessRevoked =
+    searchParams.get("error") === "access_revoked";
 
   const form = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: "", password: "" },
   });
+
+  useEffect(() => {
+    if (accessRevoked) {
+      toast.error(accessRevokedMessage);
+    }
+  }, [accessRevoked]);
 
   async function onSubmit(values: LoginInput) {
     const result = await signIn("credentials", {
@@ -28,6 +40,10 @@ export function LoginForm() {
     });
 
     if (result?.error) {
+      if (result.code === "access_revoked") {
+        toast.error(accessRevokedMessage);
+        return;
+      }
       toast.error("Invalid email or password");
       return;
     }
@@ -39,6 +55,11 @@ export function LoginForm() {
 
   return (
     <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+      {accessRevoked ? (
+        <p className="rounded-md border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-sm text-amber-800 dark:text-amber-200">
+          {accessRevokedMessage}
+        </p>
+      ) : null}
       <div className="space-y-2">
         <Label htmlFor="email">Email</Label>
         <Input id="email" type="email" autoComplete="email" {...form.register("email")} />

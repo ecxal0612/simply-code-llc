@@ -6,6 +6,10 @@ import type { HomepageImageSlotId } from "~/lib/home/image-slots";
 import { isHomepageImageSlotId } from "~/lib/home/image-slots";
 import { db } from "~/server/db";
 import { images } from "~/server/db/schema";
+import {
+  deleteManagedUpload,
+  isManagedUploadUrl,
+} from "~/server/uploadthing-cleanup";
 
 export type ResolvedHomepageImages = {
   hero: string;
@@ -125,6 +129,14 @@ export async function updateHomepageImageFromUpload({
 
   if (!existing) {
     throw new Error(`Homepage image slot not prepared: ${slot}`);
+  }
+
+  if (
+    existing.url &&
+    existing.url !== url &&
+    isManagedUploadUrl(existing.url)
+  ) {
+    await deleteManagedUpload(existing.url);
   }
 
   const [updated] = await db

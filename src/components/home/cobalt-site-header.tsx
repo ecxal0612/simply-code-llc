@@ -1,45 +1,68 @@
+import Image from "next/image";
 import Link from "next/link";
 import { AuthNavLink } from "~/components/home/auth-nav-link";
 import { HomeMobileNav } from "~/components/home/home-mobile-nav";
 import { Button } from "~/components/ui/button";
-import { homeCopy } from "~/lib/home/content";
+import type { SiteNavItem } from "~/lib/site/header";
 import { cobaltClass } from "~/lib/home/cobalt-theme";
 import { cn } from "~/lib/utils";
 
-export function CobaltSiteHeader({ isLoggedIn }: { isLoggedIn: boolean }) {
-  const c = homeCopy;
-
+export function CobaltSiteHeader({
+  isLoggedIn,
+  brand,
+  nav,
+  logoUrl,
+}: {
+  isLoggedIn: boolean;
+  brand: string;
+  nav: SiteNavItem[];
+  logoUrl: string | null;
+}) {
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-zinc-950/90 backdrop-blur-md supports-[backdrop-filter]:bg-zinc-950/75">
       <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-4">
         <Link href="/" className="flex shrink-0 items-center gap-2">
-          <span
-            className={cn(
-              "flex size-8 items-center justify-center rounded-md font-mono text-xs font-bold",
-              cobaltClass.logo,
-            )}
-          >
-            SC
-          </span>
-          <span className="text-sm font-semibold tracking-tight">{c.brand}</span>
+          {logoUrl ? (
+            <Image
+              src={logoUrl}
+              alt={`${brand} logo`}
+              width={32}
+              height={32}
+              className="size-8 rounded-md object-contain"
+            />
+          ) : (
+            <span
+              className={cn(
+                "flex size-8 items-center justify-center rounded-md font-mono text-xs font-bold",
+                cobaltClass.logo,
+              )}
+            >
+              SC
+            </span>
+          )}
+          <span className="text-sm font-semibold tracking-tight">{brand}</span>
         </Link>
 
-        <nav className="hidden items-center gap-6 lg:flex">
-          {c.nav.map((item) => (
-            <a
-              key={item.id}
-              href={`#${item.id}`}
+        <nav className="hidden items-center gap-6 xl:flex">
+          {nav.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
               className={cn(
                 "text-xs font-medium uppercase tracking-widest text-zinc-400 transition",
                 cobaltClass.linkHover,
               )}
             >
               {item.label}
-            </a>
+            </Link>
           ))}
           <span className="h-4 w-px bg-white/15" aria-hidden />
           {isLoggedIn ? (
-            <Button asChild size="sm" className={cn("h-8 rounded-none px-4 text-xs", cobaltClass.btn)}>
+            <Button
+              asChild
+              size="sm"
+              className={cn("h-8 rounded-none px-4 text-xs", cobaltClass.btn)}
+            >
               <Link href="/dashboard">Dashboard</Link>
             </Button>
           ) : (
@@ -48,9 +71,12 @@ export function CobaltSiteHeader({ isLoggedIn }: { isLoggedIn: boolean }) {
                 asChild
                 size="sm"
                 variant="ghost"
-                className={cn("h-8 rounded-none px-3 text-xs text-zinc-300", cobaltClass.btnGhostHover)}
+                className={cn(
+                  "h-8 rounded-none px-3 text-xs text-zinc-300",
+                  cobaltClass.btnGhostHover,
+                )}
               >
-                <AuthNavLink href="/login">Sign in</AuthNavLink>
+                <AuthNavLink href="/login">Sign In</AuthNavLink>
               </Button>
               <Button
                 asChild
@@ -59,13 +85,17 @@ export function CobaltSiteHeader({ isLoggedIn }: { isLoggedIn: boolean }) {
                   "h-8 rounded-none border border-[#4682B4]/60 bg-transparent px-3 text-xs text-zinc-100 hover:border-[#1E90FF] hover:bg-white/5",
                 )}
               >
-                <AuthNavLink href="/register">Create account</AuthNavLink>
+                <AuthNavLink href="/register">Create Account</AuthNavLink>
               </Button>
             </div>
           )}
         </nav>
 
-        <HomeMobileNav brand={c.brand} nav={c.nav} isLoggedIn={isLoggedIn} />
+        <HomeMobileNav
+          brand={brand}
+          nav={nav.map((item) => ({ id: item.href, label: item.label }))}
+          isLoggedIn={isLoggedIn}
+        />
       </div>
     </header>
   );

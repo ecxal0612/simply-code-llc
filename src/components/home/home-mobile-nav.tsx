@@ -1,5 +1,5 @@
 "use client";
-
+import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { AuthNavLink } from "~/components/home/auth-nav-link";
@@ -19,7 +19,7 @@ export function HomeMobileNav({
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="flex items-center gap-2 lg:hidden">
+    <div className="flex items-center gap-2 xl:hidden">
       <button
         type="button"
         aria-expanded={open}
@@ -39,25 +39,25 @@ export function HomeMobileNav({
           <ul className="flex flex-col gap-3">
             {nav.map((item) => (
               <li key={item.id}>
-                <a
-                  href={`#${item.id}`}
+                <Link
+                  href={item.id.startsWith("/") ? item.id : `#${item.id}`}
                   className={cn("text-sm font-medium text-zinc-400", cobaltClass.linkHover)}
                   onClick={() => setOpen(false)}
                 >
                   {item.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
           <div className="mt-5 flex flex-col gap-2 border-t border-white/10 pt-5">
             {isLoggedIn ? (
               <Button asChild size="sm" className={cn("rounded-none", cobaltClass.btn)}>
-                <AuthNavLink href="/dashboard" onClick={() => setOpen(false)}>Go to dashboard</AuthNavLink>
+                <Link href="/dashboard" onClick={() => setOpen(false)}>Dashboard</Link>
               </Button>
             ) : (
               <>
                 <Button asChild size="sm" className={cn("rounded-none", cobaltClass.btn)}>
-                  <AuthNavLink href="/login" onClick={() => setOpen(false)}>Sign in</AuthNavLink>
+                  <AuthNavLink href="/login" onClick={() => setOpen(false)}>Sign In</AuthNavLink>
                 </Button>
                 <Button
                   asChild
@@ -65,7 +65,7 @@ export function HomeMobileNav({
                   variant="outline"
                   className="rounded-none border-[#4682B4]/60 bg-transparent text-zinc-100 hover:border-[#1E90FF] hover:bg-white/5"
                 >
-                  <AuthNavLink href="/register" onClick={() => setOpen(false)}>Create account</AuthNavLink>
+                  <AuthNavLink href="/register" onClick={() => setOpen(false)}>Create Account</AuthNavLink>
                 </Button>
               </>
             )}

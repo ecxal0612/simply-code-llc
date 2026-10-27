@@ -1,34 +1,65 @@
 import Image from "next/image";
-import {
-  ArrowUpRight,
-  Boxes,
-  Cpu,
-  GitBranch,
-  LineChart,
-  Shield,
-  Sparkles,
-  Users,
-  Workflow,
-} from "lucide-react";
-import { CobaltSiteHeader } from "~/components/home/cobalt-site-header";
+import { ArrowUpRight, LayoutGrid, Users } from "lucide-react";
+import { CobaltSiteFooter } from "~/components/home/cobalt-site-footer";
 import { HeroParticleField } from "~/components/home/hero-particle-field";
+import { SiteHeader } from "~/components/site/site-header";
 import { HomeNavigationEffects } from "~/components/home/home-navigation-effects";
+import { RichText } from "~/components/site/rich-text";
 import { Button } from "~/components/ui/button";
-import { homeCopy } from "~/lib/home/content";
 import { cobaltClass } from "~/lib/home/cobalt-theme";
-import type { ResolvedHomepageImages } from "~/server/homepage-images";
+import type { PageSectionContent } from "~/lib/pages/types";
+import {
+  resolveProjectSectionItem,
+  type ProjectSource,
+} from "~/lib/projects/display";
+import type { PageWithSections } from "~/server/pages";
+import type { ProjectRecord } from "~/server/projects";
 import { cn } from "~/lib/utils";
 
-const whyIcons = [Users, Boxes, Sparkles, GitBranch, Shield, LineChart];
+function toProjectSource(project: ProjectRecord): ProjectSource {
+  return {
+    id: project.id,
+    title: project.title,
+    description: project.description,
+    label: project.label,
+    projectDate: project.projectDate,
+    imageUrl: project.imageUrl,
+    links: project.links,
+  };
+}
 
 export function CobaltHomepage({
   isLoggedIn,
+  page,
   images,
+  projectsById,
 }: {
   isLoggedIn: boolean;
-  images: ResolvedHomepageImages;
+  page: PageWithSections;
+  images: Record<string, string>;
+  projectsById: Map<string, ProjectRecord>;
 }) {
-  const c = homeCopy;
+  const projectSources = new Map(
+    [...projectsById.entries()].map(([id, project]) => [
+      id,
+      toProjectSource(project),
+    ]),
+  );
+  const sections = new Map(
+    page.sections.map((section) => [section.key, section.content]),
+  );
+  const section = (key: string): PageSectionContent => sections.get(key) ?? {};
+  const imageFor = (content: PageSectionContent, fallbackSlot: string) =>
+    images[content.images?.[0]?.slot ?? fallbackSlot] ?? "";
+
+  const hero = section("hero");
+  const services = section("services");
+  const experience = section("experience");
+  const technology = section("technology");
+  const team = section("team");
+  const process = section("process");
+  const projects = section("projects");
+  const contact = section("contact");
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100">
@@ -43,235 +74,525 @@ export function CobaltHomepage({
       />
 
       <HomeNavigationEffects />
-      <CobaltSiteHeader isLoggedIn={isLoggedIn} />
+      <SiteHeader isLoggedIn={isLoggedIn} />
 
-      <section className="relative flex min-h-[90vh] flex-col justify-end overflow-hidden">
+      <section className="relative flex min-h-[80vh] flex-col justify-end overflow-hidden">
         <Image
-          src={images.hero}
-          alt=""
+          src={imageFor(hero, "home.hero")}
+          alt={hero.images?.[0]?.alt ?? ""}
           fill
           className="object-cover opacity-25"
           priority
           sizes="100vw"
         />
-        <div className="absolute inset-0 z-[2] bg-gradient-to-t from-zinc-950 via-zinc-950/70 to-zinc-950/25" />
+        <div className="absolute inset-0 z-[2] bg-gradient-to-t from-zinc-950 via-zinc-950/75 to-zinc-950/30" />
         <HeroParticleField className="z-[3]" />
-        <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-20 pt-32 md:pb-28 md:pt-40">
-          <p className={cn("font-mono text-xs tracking-[0.35em] uppercase", cobaltClass.eyebrow)}>
-            {c.hero.eyebrow}
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pt-32 pb-16 md:pt-40 md:pb-20">
+          <p
+            className={cn(
+              "font-mono text-xs tracking-[0.35em] uppercase",
+              cobaltClass.eyebrow,
+            )}
+          >
+            {hero.eyebrow}
           </p>
-          <h1 className="mt-6 max-w-4xl text-5xl font-semibold leading-[1.05] tracking-tight text-balance sm:text-6xl lg:text-7xl">
-            {c.hero.headline}
+          <h1 className="mt-6 max-w-4xl text-4xl leading-[1.08] font-semibold tracking-tight text-balance sm:text-5xl lg:text-6xl">
+            {hero.title}
           </h1>
-          <p className="mt-8 max-w-2xl text-lg leading-relaxed text-zinc-400">{c.hero.body}</p>
-          <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-            <Button asChild size="lg" className={cn("h-12 rounded-none px-8", cobaltClass.btn)}>
-              <a href="#contact">{c.hero.primaryCta}</a>
-            </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="h-12 rounded-none border-zinc-600 bg-transparent text-zinc-100 hover:bg-white/5"
-            >
-              <a href="#services">{c.hero.secondaryCta}</a>
-            </Button>
+          <RichText
+            html={hero.bodyHtml}
+            className="mt-6 max-w-2xl text-lg leading-relaxed text-zinc-400"
+          />
+          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+            {hero.ctaLabel ? (
+              <Button
+                asChild
+                size="lg"
+                className={cn("h-11 rounded-none px-7", cobaltClass.btn)}
+              >
+                <a href={hero.ctaHref ?? "#contact"}>
+                  {hero.ctaLabel}
+                  <ArrowUpRight className="size-4" />
+                </a>
+              </Button>
+            ) : null}
+            {hero.secondaryCtaLabel ? (
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="h-11 rounded-none border-zinc-600 bg-transparent text-zinc-100 hover:bg-white/5"
+              >
+                <a href={hero.secondaryCtaHref ?? "#services"}>
+                  {hero.secondaryCtaLabel}
+                </a>
+              </Button>
+            ) : null}
           </div>
-          <p className="mt-8 font-mono text-xs text-zinc-500 uppercase">{c.hero.supporting}</p>
         </div>
       </section>
 
-      <section id="services" className="border-y border-white/10">
-        <div className="mx-auto max-w-7xl px-6 py-24">
-          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-            <div className="max-w-xl">
-              <p className={cn("font-mono text-xs tracking-[0.3em] uppercase", cobaltClass.eyebrowStrong)}>
-                {c.services.eyebrow}
-              </p>
-              <h2 className="mt-4 text-4xl font-semibold tracking-tight md:text-5xl">{c.services.title}</h2>
+      <section id="services" className="mx-auto max-w-7xl px-6 py-16">
+        <div className="grid gap-10 lg:grid-cols-12 lg:items-center">
+          <div className="lg:col-span-5">
+            <p
+              className={cn(
+                "font-mono text-xs tracking-[0.3em] uppercase",
+                cobaltClass.eyebrowStrong,
+              )}
+            >
+              {services.eyebrow}
+            </p>
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight md:text-4xl">
+              {services.title}
+            </h2>
+            <RichText html={services.bodyHtml} className="mt-4 text-zinc-400" />
+            <div className="mt-8 flex flex-wrap gap-3">
+              {services.ctaLabel ? (
+                <Button
+                  asChild
+                  variant="outline"
+                  className="rounded-none border-zinc-600 text-zinc-100"
+                >
+                  <a href={services.ctaHref ?? "/services"}>
+                    {services.ctaLabel}
+                    <ArrowUpRight className="size-4" />
+                  </a>
+                </Button>
+              ) : null}
+              {services.secondaryCtaLabel ? (
+                <Button
+                  asChild
+                  variant="outline"
+                  className="rounded-none border-zinc-700 text-zinc-300 hover:bg-white/5"
+                >
+                  <a href={services.secondaryCtaHref ?? "/work"}>
+                    {services.secondaryCtaLabel}
+                  </a>
+                </Button>
+              ) : null}
             </div>
-            <p className="max-w-md text-sm leading-relaxed text-zinc-400 md:text-right">{c.services.intro}</p>
           </div>
-          <div className="mt-16 divide-y divide-white/10 border border-white/10">
-            {c.services.items.map((item, i) => (
-              <article
-                key={item.title}
-                className="group grid gap-4 p-6 transition hover:bg-white/[0.02] md:grid-cols-[4rem_1fr_2fr] md:items-start md:gap-8 md:p-8"
+          <div className="grid gap-4 sm:grid-cols-2 lg:col-span-7">
+            {(services.items ?? []).map((item, index) => (
+              <div
+                key={`${item.title}-${index}`}
+                className="relative overflow-hidden border border-white/10 p-6 transition hover:border-[#1E90FF]/60 hover:bg-white/[0.02]"
               >
-                <span className={cn("font-mono text-2xl font-light", cobaltClass.mutedAccent)}>
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h3 className={cn("text-xl font-medium", cobaltClass.titleHover)}>{item.title}</h3>
-                <p className="text-sm leading-relaxed text-zinc-500">{item.description}</p>
-              </article>
+                <div className="absolute -top-10 -right-10 h-24 w-24 rounded-full bg-[#1E90FF]/10 blur-3xl" />
+                <div className="relative">
+                  <LayoutGrid
+                    className={cn("mb-4 size-5", cobaltClass.accent)}
+                  />
+                  {item.meta ? (
+                    <p
+                      className={cn(
+                        "font-mono text-[11px] tracking-[0.25em] uppercase",
+                        cobaltClass.accent,
+                      )}
+                    >
+                      {item.meta}
+                    </p>
+                  ) : null}
+                  <h3 className={cn("font-medium", item.meta && "mt-2")}>
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-sm text-zinc-400">
+                    {item.description}
+                  </p>
+                </div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section id="experience" className="mx-auto max-w-7xl px-6 py-24">
-        <div className="grid gap-0 lg:grid-cols-12">
-          <div className="relative min-h-[280px] lg:col-span-5">
+      <section className="mx-auto max-w-7xl px-6 py-16">
+        <div className="relative overflow-hidden border border-white/10">
+          <div className="absolute inset-0">
             <Image
-              src={images.experience}
-              alt=""
+              src={imageFor(experience, "home.experience")}
+              alt={experience.images?.[0]?.alt ?? ""}
               fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 40vw"
+              className="object-cover opacity-30"
+              sizes="100vw"
             />
-            <div className="absolute inset-0 ring-1 ring-inset ring-white/10" />
+            <div className="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-950/90 to-zinc-950/70" />
           </div>
-          <div className="flex flex-col justify-center border border-t-0 border-white/10 bg-zinc-900/50 p-8 lg:col-span-7 lg:border-t lg:border-l-0 lg:p-14">
-            <p className={cn("font-mono text-xs tracking-[0.3em] uppercase", cobaltClass.eyebrowStrong)}>
-              {c.experience.eyebrow}
-            </p>
-            <h2 className="mt-4 text-3xl font-semibold leading-tight md:text-4xl">{c.experience.title}</h2>
-            <div className="mt-6 space-y-4 text-sm leading-relaxed text-zinc-400">
-              {c.experience.paragraphs.map((p) => (
-                <p key={p.slice(0, 40)}>{p}</p>
-              ))}
-            </div>
-            <p className="mt-6 text-xs text-zinc-500">{c.experience.supporting}</p>
-            <Button asChild className={cn("mt-8 w-fit rounded-none", cobaltClass.btn)}>
-              <a href="#contact">
-                {c.experience.cta}
-                <ArrowUpRight className="size-4" />
-              </a>
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      <section id="technology" className={cn("py-24", cobaltClass.sectionTech)}>
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="grid gap-12 lg:grid-cols-2">
-            <div>
-              <p className="font-mono text-xs font-semibold tracking-[0.3em] uppercase text-white/75">
-                {c.technology.eyebrow}
+          <div className="relative grid gap-8 p-8 md:p-12 lg:grid-cols-12 lg:items-center">
+            <div className="lg:col-span-7">
+              <p
+                className={cn(
+                  "font-mono text-xs tracking-[0.3em] uppercase",
+                  cobaltClass.eyebrowStrong,
+                )}
+              >
+                {experience.eyebrow}
               </p>
-              <h2 className="mt-4 text-4xl font-semibold tracking-tight">{c.technology.title}</h2>
-              <p className="mt-6 leading-relaxed text-white/85">{c.technology.intro}</p>
-              <p className="mt-8 text-sm font-medium text-white/75">{c.technology.supporting}</p>
+              <h2 className="mt-4 text-3xl font-semibold tracking-tight md:text-4xl">
+                {experience.title}
+              </h2>
+              <RichText
+                html={experience.bodyHtml}
+                className="mt-4 max-w-2xl text-zinc-300"
+              />
+              <div className="mt-8 flex flex-wrap gap-3">
+                {experience.ctaLabel ? (
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="rounded-none border-white/40 text-zinc-100 hover:bg-white/5"
+                  >
+                    <a href={experience.ctaHref ?? "/work"}>
+                      {experience.ctaLabel}
+                      <ArrowUpRight className="size-4" />
+                    </a>
+                  </Button>
+                ) : null}
+                {experience.secondaryCtaLabel ? (
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="rounded-none border-white/20 text-zinc-300 hover:bg-white/5"
+                  >
+                    <a href={experience.secondaryCtaHref ?? "/about"}>
+                      {experience.secondaryCtaLabel}
+                    </a>
+                  </Button>
+                ) : null}
+              </div>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2">
-              {c.technology.items.map((item) => (
-                <div key={item.title} className="border border-white/20 bg-white/10 p-5 backdrop-blur-sm">
-                  <Cpu className="mb-3 size-5 text-white/70" />
-                  <h3 className="font-semibold">{item.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-white/80">{item.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="team" className="mx-auto max-w-7xl px-6 py-24">
-        <p className={cn("font-mono text-xs tracking-[0.3em] uppercase", cobaltClass.eyebrowStrong)}>
-          {c.team.eyebrow}
-        </p>
-        <h2 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight">{c.team.title}</h2>
-        <p className="mt-6 max-w-2xl text-zinc-400">{c.team.intro}</p>
-        <p className="mt-3 max-w-2xl text-zinc-400">{c.team.intro2}</p>
-        <div className="mt-16 grid gap-px bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
-          {c.team.members.map((member, i) => (
-            <article key={member.name} className="bg-zinc-950 p-6">
-              <div className="relative mb-5 aspect-square overflow-hidden grayscale transition hover:grayscale-0">
+            <div className="hidden lg:col-span-5 lg:flex lg:justify-end">
+              <div className="relative h-40 w-full max-w-sm border border-white/15">
                 <Image
-                  src={images.team[i] ?? images.team[0]}
-                  alt=""
+                  src={imageFor(experience, "home.experience")}
+                  alt={experience.images?.[0]?.alt ?? ""}
                   fill
                   className="object-cover"
-                  sizes="280px"
+                  sizes="320px"
                 />
               </div>
-              <h3 className="text-lg font-medium">{member.name}</h3>
-              <p className={cn("mt-1 font-mono text-xs uppercase", cobaltClass.accent)}>{member.role}</p>
-              <p className="mt-3 text-sm text-zinc-500">{member.bio}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section id="process" className="border-y border-white/10 bg-zinc-900/30">
-        <div className="mx-auto max-w-7xl px-6 py-24">
-          <div className="grid gap-16 lg:grid-cols-[1fr_1.2fr]">
-            <div className="lg:sticky lg:top-28 lg:self-start">
-              <p className={cn("font-mono text-xs tracking-[0.3em] uppercase", cobaltClass.eyebrowStrong)}>
-                {c.process.eyebrow}
-              </p>
-              <h2 className="mt-4 text-4xl font-semibold tracking-tight">{c.process.title}</h2>
-              <p className="mt-6 text-zinc-400">{c.process.intro}</p>
-              <p className="mt-8 flex items-center gap-2 text-sm text-zinc-500">
-                <Workflow className={cn("size-4", cobaltClass.accent)} />
-                {c.process.closing}
-              </p>
-            </div>
-            <div className="space-y-6">
-              {c.process.steps.map((step) => (
-                <div key={step.step} className={cn("border-l-2 py-2 pl-6 transition", cobaltClass.borderAccent)}>
-                  <span className={cn("font-mono text-sm", cobaltClass.accent)}>{step.step}</span>
-                  <h3 className="mt-1 text-xl font-medium">{step.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-zinc-500">{step.description}</p>
-                </div>
-              ))}
             </div>
           </div>
         </div>
       </section>
 
-      <section id="why" className="mx-auto max-w-7xl px-6 py-24">
-        <p className={cn("font-mono text-xs tracking-[0.3em] uppercase", cobaltClass.eyebrowStrong)}>
-          {c.why.eyebrow}
-        </p>
-        <h2 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight">{c.why.title}</h2>
-        <p className="mt-6 max-w-2xl text-zinc-400">{c.why.intro}</p>
-        <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {c.why.items.map((item, i) => {
-            const Icon = whyIcons[i] ?? Sparkles;
-            return (
+      <section
+        className={cn("border-y border-white/10", cobaltClass.sectionTech)}
+      >
+        <div className="mx-auto max-w-7xl px-6 py-16">
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="font-mono text-xs tracking-[0.3em] text-white/75 uppercase">
+                {technology.eyebrow}
+              </p>
+              <h2 className="mt-4 text-3xl font-semibold tracking-tight">
+                {technology.title}
+              </h2>
+              <RichText
+                html={technology.bodyHtml}
+                className="mt-3 max-w-xl text-white/80"
+              />
+            </div>
+            <div className="flex flex-wrap gap-3">
+              {technology.ctaLabel ? (
+                <Button
+                  asChild
+                  variant="outline"
+                  className="rounded-none border-white/40 text-white hover:bg-white/10"
+                >
+                  <a href={technology.ctaHref ?? "/services"}>
+                    {technology.ctaLabel}
+                    <ArrowUpRight className="size-4" />
+                  </a>
+                </Button>
+              ) : null}
+              {technology.secondaryCtaLabel ? (
+                <Button
+                  asChild
+                  variant="outline"
+                  className="rounded-none border-white/20 text-white/80 hover:bg-white/10"
+                >
+                  <a href={technology.secondaryCtaHref ?? "/work"}>
+                    {technology.secondaryCtaLabel}
+                  </a>
+                </Button>
+              ) : null}
+            </div>
+          </div>
+          <div className="mt-10 flex flex-wrap gap-3">
+            {(technology.items ?? []).map((item, index) => (
               <div
-                key={item.title}
-                className={cn("border border-white/10 p-6 transition hover:bg-white/[0.02]", cobaltClass.cardHover)}
+                key={`${item.title}-${index}`}
+                className="border border-white/30 px-4 py-3 text-white/90"
               >
-                <Icon className={cn("mb-4 size-5", cobaltClass.accent)} />
-                <h3 className="font-medium">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-zinc-500">{item.description}</p>
+                {item.meta ? (
+                  <p className="font-mono text-[10px] tracking-[0.25em] text-white/60 uppercase">
+                    {item.meta}
+                  </p>
+                ) : null}
+                <p className="text-sm">{item.title}</p>
+                {item.description ? (
+                  <p className="mt-1 text-xs text-white/70">
+                    {item.description}
+                  </p>
+                ) : null}
               </div>
-            );
-          })}
+            ))}
+          </div>
         </div>
-        <p className="mt-16 border-t border-white/10 pt-10 text-center text-sm text-zinc-400">{c.why.closing}</p>
       </section>
 
-      <section id="contact" className="border-t border-white/10">
-        <div className="mx-auto grid max-w-7xl gap-0 lg:grid-cols-2">
-          <div className="flex flex-col justify-center p-8 md:p-16 lg:border-r lg:border-white/10">
-            <p className={cn("font-mono text-xs tracking-[0.3em] uppercase", cobaltClass.eyebrowStrong)}>
-              {c.contact.eyebrow}
-            </p>
-            <h2 className="mt-4 text-4xl font-semibold tracking-tight">{c.contact.title}</h2>
-            <p className="mt-6 text-zinc-400">{c.contact.body}</p>
-            <p className="mt-4 text-zinc-400">{c.contact.body2}</p>
-            <p className="mt-8 text-sm text-zinc-500">{c.contact.supporting}</p>
-          </div>
-          <div className="bg-zinc-900/50 p-8 md:p-16">
-            <div className="space-y-4">
-              <p className="text-lg font-medium">Start a project</p>
-              <p className="text-sm text-zinc-400">
-                Email us at <span className="text-zinc-100">hello@simplycode.com</span> or use the &quot;Let&apos;s Talk&quot;
-                button above to get started.
+      <section className="mx-auto max-w-7xl px-6 py-16">
+        <div className="grid gap-8 lg:grid-cols-2">
+          <div className="flex flex-col justify-between border border-white/10 p-8">
+            <div>
+              <p
+                className={cn(
+                  "font-mono text-xs tracking-[0.3em] uppercase",
+                  cobaltClass.eyebrowStrong,
+                )}
+              >
+                {team.eyebrow}
               </p>
+              <h2 className="mt-4 text-3xl font-semibold tracking-tight">
+                {team.title}
+              </h2>
+              <RichText html={team.bodyHtml} className="mt-4 text-zinc-400" />
+            </div>
+            <div className="mt-8 flex flex-wrap gap-3">
+              {team.ctaLabel ? (
+                <Button
+                  asChild
+                  variant="outline"
+                  className="w-fit rounded-none border-zinc-600 text-zinc-100"
+                >
+                  <a href={team.ctaHref ?? "/about"}>
+                    {team.ctaLabel}
+                    <ArrowUpRight className="size-4" />
+                  </a>
+                </Button>
+              ) : null}
+              {team.secondaryCtaLabel ? (
+                <Button
+                  asChild
+                  variant="outline"
+                  className="w-fit rounded-none border-zinc-700 text-zinc-300 hover:bg-white/5"
+                >
+                  <a href={team.secondaryCtaHref ?? "/contact"}>
+                    {team.secondaryCtaLabel}
+                  </a>
+                </Button>
+              ) : null}
             </div>
           </div>
+          <div className="border border-white/10 p-8">
+            <div className="flex items-center gap-3">
+              <Users className={cn("size-5", cobaltClass.accent)} />
+              <p className="font-medium">
+                {team.items?.[0]?.title ?? "Full-stack mindset"}
+              </p>
+            </div>
+            <p className="mt-3 max-w-sm text-sm text-zinc-300">
+              {team.items?.[0]?.description}
+            </p>
+          </div>
         </div>
       </section>
 
-      <footer className="border-t border-white/10 py-10 text-center">
-        <p className="font-mono text-xs text-zinc-600">
-          © {new Date().getFullYear()} {c.brand}. All rights reserved.
-        </p>
-      </footer>
+      <section className="mx-auto max-w-7xl px-6 py-16">
+        <div className="grid gap-10 lg:grid-cols-12 lg:items-start">
+          <div className="lg:col-span-4">
+            <p
+              className={cn(
+                "font-mono text-xs tracking-[0.3em] uppercase",
+                cobaltClass.eyebrowStrong,
+              )}
+            >
+              {process.eyebrow}
+            </p>
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight">
+              {process.title}
+            </h2>
+            <RichText html={process.bodyHtml} className="mt-4 text-zinc-400" />
+            <div className="mt-8 flex flex-wrap gap-3">
+              {process.ctaLabel ? (
+                <Button
+                  asChild
+                  variant="outline"
+                  className="rounded-none border-zinc-600 text-zinc-100"
+                >
+                  <a href={process.ctaHref ?? "/about"}>
+                    {process.ctaLabel}
+                    <ArrowUpRight className="size-4" />
+                  </a>
+                </Button>
+              ) : null}
+              {process.secondaryCtaLabel ? (
+                <Button
+                  asChild
+                  variant="outline"
+                  className="rounded-none border-zinc-700 text-zinc-300 hover:bg-white/5"
+                >
+                  <a href={process.secondaryCtaHref ?? "/contact"}>
+                    {process.secondaryCtaLabel}
+                  </a>
+                </Button>
+              ) : null}
+            </div>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 lg:col-span-8">
+            {(process.items ?? []).map((item, index) => (
+              <div
+                key={`${item.title}-${index}`}
+                className="relative border border-white/10 p-5 transition hover:border-[#1E90FF]/60 hover:bg-white/[0.02]"
+              >
+                <span className={cn("font-mono text-sm", cobaltClass.accent)}>
+                  {item.meta ?? String(index + 1).padStart(2, "0")}
+                </span>
+                <p className="mt-2 font-medium">{item.title}</p>
+                {item.description ? (
+                  <p className="mt-2 text-sm text-zinc-400">
+                    {item.description}
+                  </p>
+                ) : null}
+                <div className="absolute top-4 right-4 h-8 w-8 rounded-full bg-[#1E90FF]/10" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-6 py-16">
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p
+              className={cn(
+                "font-mono text-xs tracking-[0.3em] uppercase",
+                cobaltClass.eyebrowStrong,
+              )}
+            >
+              {projects.eyebrow}
+            </p>
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight">
+              {projects.title}
+            </h2>
+            <RichText
+              html={projects.bodyHtml}
+              className="mt-3 max-w-xl text-zinc-400"
+            />
+          </div>
+          <div className="flex flex-wrap gap-3">
+            {projects.ctaLabel ? (
+              <Button
+                asChild
+                variant="outline"
+                className="rounded-none border-zinc-600 text-zinc-100"
+              >
+                <a href={projects.ctaHref ?? "/work"}>
+                  {projects.ctaLabel}
+                  <ArrowUpRight className="size-4" />
+                </a>
+              </Button>
+            ) : null}
+            {projects.secondaryCtaLabel ? (
+              <Button
+                asChild
+                variant="outline"
+                className="rounded-none border-zinc-700 text-zinc-300 hover:bg-white/5"
+              >
+                <a href={projects.secondaryCtaHref ?? "/contact"}>
+                  {projects.secondaryCtaLabel}
+                </a>
+              </Button>
+            ) : null}
+          </div>
+        </div>
+        <div className="mt-10 grid gap-4 md:grid-cols-3">
+          {(projects.items ?? [])
+            .map((item, index) =>
+              resolveProjectSectionItem(item, index, projectSources),
+            )
+            .filter((item): item is NonNullable<typeof item> => Boolean(item))
+            .map((item) => (
+              <article key={item.key} className="border border-white/10">
+                <div className="relative aspect-[16/10] bg-gradient-to-br from-[#1E90FF]/25 to-transparent">
+                  {item.imageUrl ? (
+                    <Image
+                      src={item.imageUrl}
+                      alt={item.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                  ) : null}
+                </div>
+                <div className="p-6">
+                  {item.meta ? (
+                    <p
+                      className={cn(
+                        "font-mono text-[11px] tracking-[0.25em] uppercase",
+                        cobaltClass.accent,
+                      )}
+                    >
+                      {item.meta}
+                    </p>
+                  ) : null}
+                  <h3 className={cn("font-medium", item.meta && "mt-2")}>
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-sm text-zinc-400">
+                    {item.description}
+                  </p>
+                </div>
+              </article>
+            ))}
+        </div>
+      </section>
+
+      <section id="contact" className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-[#1E90FF]/90" />
+        <div className="relative mx-auto flex max-w-4xl flex-col items-center px-6 py-16 text-center">
+          <p className="font-mono text-xs tracking-[0.35em] text-white/80 uppercase">
+            {contact.eyebrow}
+          </p>
+          <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white md:text-4xl">
+            {contact.title}
+          </h2>
+          <RichText
+            html={contact.bodyHtml}
+            className="mt-4 max-w-2xl text-white/90"
+          />
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            {contact.ctaLabel ? (
+              <Button
+                asChild
+                size="lg"
+                className="rounded-none bg-white px-8 text-zinc-950 hover:bg-white/90"
+              >
+                <a href={contact.ctaHref ?? "/contact"}>
+                  {contact.ctaLabel}
+                  <ArrowUpRight className="size-4" />
+                </a>
+              </Button>
+            ) : null}
+            {contact.secondaryCtaLabel ? (
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="rounded-none border-white/70 bg-transparent text-white hover:bg-white/10"
+              >
+                <a href={contact.secondaryCtaHref ?? "/services"}>
+                  {contact.secondaryCtaLabel}
+                </a>
+              </Button>
+            ) : null}
+          </div>
+        </div>
+      </section>
+
+      <CobaltSiteFooter />
     </div>
   );
 }

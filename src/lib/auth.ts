@@ -3,10 +3,16 @@ import { eq } from "drizzle-orm";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import authConfig from "~/lib/auth.config";
+import { DashboardAccessRevoked } from "~/lib/auth/errors";
 import { loginSchema } from "~/schemas/auth";
 import { verifyPassword } from "~/server/auth/password";
 import { db } from "~/server/db";
-import { accounts, sessions, users, verificationTokens } from "~/server/db/schema";
+import {
+  accounts,
+  sessions,
+  users,
+  verificationTokens,
+} from "~/server/db/schema";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
@@ -33,7 +39,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         });
         if (!row?.passwordHash) return null;
 
-        const valid = await verifyPassword(parsed.data.password, row.passwordHash);
+        if (row.dashboardAccessRevokedAt) {
+          throw new DashboardAccessRevoked();
+        }
+
+        const valid = await verifyPassword(
+          parsed.data.password,
+          row.passwordHash,
+        );
         if (!valid) return null;
 
         return {
@@ -46,4 +59,21 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
+  callbacks: {
+    ...authConfig.callbacks,
+    async signIn({ user }) {
+      if (!user.id) return true;
+
+      const row = await db.query.users.findFirst({
+        where: eq(users.id, user.id),
+        columns: { dashboardAccessRevokedAt: true },
+      });
+
+      if (row?.dashboardAccessRevokedAt) {
+        return "/login?error=access_revoked";
+      }
+
+      return true;
+    },
+  },
 });
