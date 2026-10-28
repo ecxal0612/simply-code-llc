@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { ArrowUpRight, LayoutGrid, Users } from "lucide-react";
-import { CobaltSiteFooter } from "~/components/home/cobalt-site-footer";
+import { ArrowUpRight, LayoutGrid } from "lucide-react";
+import { SiteFooter } from "~/components/site/site-footer";
 import { HeroParticleField } from "~/components/home/hero-particle-field";
 import { SiteHeader } from "~/components/site/site-header";
 import { HomeNavigationEffects } from "~/components/home/home-navigation-effects";
@@ -56,7 +56,6 @@ export function CobaltHomepage({
   const services = section("services");
   const experience = section("experience");
   const technology = section("technology");
-  const team = section("team");
   const process = section("process");
   const projects = section("projects");
   const contact = section("contact");
@@ -344,63 +343,6 @@ export function CobaltHomepage({
       </section>
 
       <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="grid gap-8 lg:grid-cols-2">
-          <div className="flex flex-col justify-between border border-white/10 p-8">
-            <div>
-              <p
-                className={cn(
-                  "font-mono text-xs tracking-[0.3em] uppercase",
-                  cobaltClass.eyebrowStrong,
-                )}
-              >
-                {team.eyebrow}
-              </p>
-              <h2 className="mt-4 text-3xl font-semibold tracking-tight">
-                {team.title}
-              </h2>
-              <RichText html={team.bodyHtml} className="mt-4 text-zinc-400" />
-            </div>
-            <div className="mt-8 flex flex-wrap gap-3">
-              {team.ctaLabel ? (
-                <Button
-                  asChild
-                  variant="outline"
-                  className="w-fit rounded-none border-zinc-600 text-zinc-100"
-                >
-                  <a href={team.ctaHref ?? "/about"}>
-                    {team.ctaLabel}
-                    <ArrowUpRight className="size-4" />
-                  </a>
-                </Button>
-              ) : null}
-              {team.secondaryCtaLabel ? (
-                <Button
-                  asChild
-                  variant="outline"
-                  className="w-fit rounded-none border-zinc-700 text-zinc-300 hover:bg-white/5"
-                >
-                  <a href={team.secondaryCtaHref ?? "/contact"}>
-                    {team.secondaryCtaLabel}
-                  </a>
-                </Button>
-              ) : null}
-            </div>
-          </div>
-          <div className="border border-white/10 p-8">
-            <div className="flex items-center gap-3">
-              <Users className={cn("size-5", cobaltClass.accent)} />
-              <p className="font-medium">
-                {team.items?.[0]?.title ?? "Full-stack mindset"}
-              </p>
-            </div>
-            <p className="mt-3 max-w-sm text-sm text-zinc-300">
-              {team.items?.[0]?.description}
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 py-16">
         <div className="grid gap-10 lg:grid-cols-12 lg:items-start">
           <div className="lg:col-span-4">
             <p
@@ -592,7 +534,7 @@ export function CobaltHomepage({
         </div>
       </section>
 
-      <CobaltSiteFooter />
+      <SiteFooter />
     </div>
   );
 }

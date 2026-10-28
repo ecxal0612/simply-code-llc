@@ -14,7 +14,6 @@ import {
 export type ResolvedHomepageImages = {
   hero: string;
   experience: string;
-  team: [string, string, string, string];
 };
 
 export function getDefaultUrlForSlot(slot: HomepageImageSlotId): string {
@@ -23,14 +22,6 @@ export function getDefaultUrlForSlot(slot: HomepageImageSlotId): string {
       return homeImages.hero;
     case "home.experience":
       return homeImages.experience;
-    case "home.team.0":
-      return homeImages.team[0];
-    case "home.team.1":
-      return homeImages.team[1];
-    case "home.team.2":
-      return homeImages.team[2];
-    case "home.team.3":
-      return homeImages.team[3];
     default:
       return homeImages.hero;
   }
@@ -73,12 +64,6 @@ export async function getResolvedHomepageImages(): Promise<ResolvedHomepageImage
   return {
     hero: bySlot.get("home.hero")?.url ?? homeImages.hero,
     experience: bySlot.get("home.experience")?.url ?? homeImages.experience,
-    team: [
-      bySlot.get("home.team.0")?.url ?? homeImages.team[0],
-      bySlot.get("home.team.1")?.url ?? homeImages.team[1],
-      bySlot.get("home.team.2")?.url ?? homeImages.team[2],
-      bySlot.get("home.team.3")?.url ?? homeImages.team[3],
-    ],
   };
 }
 

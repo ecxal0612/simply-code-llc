@@ -18,6 +18,7 @@ import {
   X,
 } from "lucide-react";
 import { toast } from "sonner";
+import { BlogPostsSectionSettings } from "~/app/dashboard/pages/blog-posts-section-settings";
 import { commitAllRichTextPendingUploads } from "~/components/editor/rich-text-pending";
 import { RichTextEditor } from "~/components/editor/rich-text-editor";
 import { Button } from "~/components/ui/button";
@@ -102,6 +103,7 @@ type SectionFields = {
   cta: boolean;
   secondaryCta: boolean;
   contactForm: boolean;
+  blogPostsPerPage: boolean;
   items: ItemsMode;
   images: boolean;
 };
@@ -113,6 +115,7 @@ const defaultSectionFields: SectionFields = {
   cta: true,
   secondaryCta: true,
   contactForm: false,
+  blogPostsPerPage: false,
   items: "list",
   images: true,
 };
@@ -121,7 +124,6 @@ const sectionFieldOverrides: Record<string, Partial<SectionFields>> = {
   hero: { items: "none" },
   "home-hero": { items: "none" },
   "home-experience": { items: "none" },
-  "home-team": { items: "single", images: false },
   "home-contact": { items: "none", images: false },
   "about-who": { cta: false, secondaryCta: false },
   "about-team": { items: "team", cta: false, secondaryCta: false },
@@ -136,6 +138,7 @@ const sectionFieldOverrides: Record<string, Partial<SectionFields>> = {
     items: "none",
     cta: false,
     secondaryCta: false,
+    blogPostsPerPage: true,
   },
   "contact-intro": {
     cta: false,
@@ -939,6 +942,15 @@ function SectionEditor({
               content={content.contactForm}
               onChange={(contactForm) =>
                 onContentChange({ ...content, contactForm })
+              }
+            />
+          ) : null}
+
+          {fields.blogPostsPerPage ? (
+            <BlogPostsSectionSettings
+              value={content.postsPerPage}
+              onChange={(postsPerPage) =>
+                onContentChange({ ...content, postsPerPage })
               }
             />
           ) : null}

@@ -72,34 +72,6 @@ async function seedDefaultPages() {
         );
     }
 
-    // The homepage Team section no longer supports section images.
-    if (definition.path === "/") {
-      const teamSection = await db.query.pageSections.findFirst({
-        where: and(
-          eq(pageSections.pageId, page.id),
-          eq(pageSections.key, "team"),
-        ),
-      });
-      if (teamSection) {
-        const content: PageSectionContent = { ...teamSection.content };
-        let changed = false;
-        if (content.images?.length) {
-          delete content.images;
-          changed = true;
-        }
-        if ((content.items?.length ?? 0) > 1) {
-          content.items = content.items?.slice(0, 1);
-          changed = true;
-        }
-        if (changed) {
-          await db
-            .update(pageSections)
-            .set({ content, updatedAt: new Date() })
-            .where(eq(pageSections.id, teamSection.id));
-        }
-      }
-    }
-
     // Blog posts now come from the posts table instead of editable section items.
     if (definition.path === "/blog") {
       const blogSection = await db.query.pageSections.findFirst({

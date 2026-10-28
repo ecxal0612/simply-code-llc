@@ -57,6 +57,7 @@ export const pageSectionContentSchema = z.object({
     })
     .optional(),
   updatedAtLabel: z.string().max(100).optional(),
+  postsPerPage: z.union([z.literal(6), z.literal(9), z.literal(12)]).optional(),
 }) satisfies z.ZodType<PageSectionContent>;
 
 export const pageStatusSchema = z.enum(["draft", "published"]);

@@ -169,6 +169,48 @@
   border: 1px solid hsl(var(--border));
 }
 
+.blog-post-prose h2 {
+  margin-top: 2.25rem;
+  font-size: 1.625rem;
+  color: rgb(250 250 250);
+}
+
+.blog-post-prose h3 {
+  margin-top: 1.75rem;
+  font-size: 1.25rem;
+  color: rgb(244 244 245);
+}
+
+.blog-post-prose p {
+  color: rgb(212 212 216);
+}
+
+.blog-post-prose strong {
+  color: rgb(250 250 250);
+  font-weight: 600;
+}
+
+.blog-post-prose blockquote {
+  margin-top: 1.5rem;
+  border-left-color: #1e90ff;
+  background: rgb(30 144 255 / 0.06);
+  padding: 1rem 1.25rem;
+  color: rgb(212 212 216);
+}
+
+.blog-post-prose a {
+  font-weight: 500;
+}
+
+.blog-post-prose ul,
+.blog-post-prose ol {
+  margin-top: 1rem;
+}
+
+.blog-post-prose li::marker {
+  color: #1e90ff;
+}
+
 .rich-text-editor p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
   float: left;

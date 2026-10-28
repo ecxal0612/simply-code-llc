@@ -64,3 +64,29 @@ export function postExcerpt(
   if (text.length <= maxLength) return text;
   return `${text.slice(0, maxLength).trimEnd()}…`;
 }
+
+const READING_WORDS_PER_MINUTE = 220;
+
+function htmlToPlainText(html: string | null | undefined): string {
+  return (html ?? "")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/** Estimated reading time from post HTML (minimum 1 minute). */
+export function estimateReadingTimeMinutes(
+  body: string | null | undefined,
+): number {
+  const words = htmlToPlainText(body).split(" ").filter(Boolean).length;
+  if (words === 0) return 1;
+  return Math.max(1, Math.ceil(words / READING_WORDS_PER_MINUTE));
+}
+
+export function formatReadingTime(body: string | null | undefined): string {
+  const minutes = estimateReadingTimeMinutes(body);
+  return `${minutes} min read`;
+}

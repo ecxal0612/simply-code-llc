@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Mail, Phone, Linkedin, Github } from "lucide-react";
-import { homeCopy } from "~/lib/home/content";
+import { SiteBrandLogo } from "~/components/site/site-brand-logo";
 import { cobaltClass } from "~/lib/home/cobalt-theme";
 import { cn } from "~/lib/utils";
 
@@ -9,25 +9,22 @@ const socialLinks = [
   { href: "https://github.com", label: "GitHub", icon: Github },
 ];
 
-export function CobaltSiteFooter() {
-  const c = homeCopy;
+export function CobaltSiteFooter({
+  brand,
+  logoUrl,
+}: {
+  brand: string;
+  logoUrl: string | null;
+}) {
   const year = new Date().getFullYear();
 
   return (
     <footer className="border-t border-white/10 bg-zinc-950">
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 md:grid-cols-2 lg:grid-cols-4">
         <div className="space-y-4">
-          <div className="flex items-center gap-2">
-            <span
-              className={cn(
-                "flex size-8 items-center justify-center rounded-md font-mono text-xs font-bold",
-                cobaltClass.logo,
-              )}
-            >
-              SC
-            </span>
-            <span className="text-sm font-semibold tracking-tight">{c.brand}</span>
-          </div>
+          <Link href="/" className="inline-flex">
+            <SiteBrandLogo brand={brand} logoUrl={logoUrl} />
+          </Link>
           <p className="max-w-xs text-sm text-zinc-400">
             Simply Code LLC is a team of four developers building modern websites and full-stack web applications for
             businesses worldwide.
@@ -126,7 +123,7 @@ export function CobaltSiteFooter() {
       </div>
       <div className="border-t border-white/10">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-6 py-6 text-center md:flex-row">
-          <p className="font-mono text-xs text-zinc-600">© {year} {c.brand}. All rights reserved.</p>
+          <p className="font-mono text-xs text-zinc-600">© {year} {brand}. All rights reserved.</p>
           <p className="font-mono text-xs text-zinc-600">Built with Next.js, TypeScript & Vercel</p>
         </div>
       </div>

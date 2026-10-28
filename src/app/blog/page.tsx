@@ -1,16 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
 import { ArrowUpRight } from "lucide-react";
-import { BlogPerPageSelect } from "~/components/blog/blog-per-page-select";
 import { PostFeaturedImage } from "~/components/blog/post-featured-image";
 import { CtaSection } from "~/components/site/cta-section";
 import { PageHero } from "~/components/site/page-hero";
 import { RichText } from "~/components/site/rich-text";
 import { SiteLayout } from "~/components/site/site-layout";
 import { Button } from "~/components/ui/button";
-import { blogListingHref, parseBlogPageSize } from "~/lib/posts/pagination";
+import { blogListingHref, resolveBlogPostsPerPage } from "~/lib/posts/pagination";
 import { postExcerpt } from "~/lib/posts/types";
 import { getPageForViewer, type PageSearchParams } from "~/server/page-preview";
 import { listPublishedPosts } from "~/server/posts";
@@ -74,16 +72,17 @@ export default async function BlogPage({
   if (!cmsPage) notFound();
 
   const requestedPage = parsePageNumber(resolvedSearchParams?.page);
-  const pageSize = parseBlogPageSize(resolvedSearchParams?.perPage);
+  const section = (key: string) =>
+    cmsPage.sections.find((item) => item.key === key)?.content;
+  const postsSection = section("posts") ?? {};
+
+  const pageSize = resolveBlogPostsPerPage(postsSection.postsPerPage);
   const listing = await listPublishedPosts({
     page: requestedPage,
     pageSize,
   });
 
-  const section = (key: string) =>
-    cmsPage.sections.find((item) => item.key === key)?.content;
   const hero = section("hero") ?? {};
-  const postsSection = section("posts") ?? {};
   const cta = section("cta") ?? {};
   const visiblePages = getVisiblePages(listing.page, listing.totalPages);
 
@@ -117,31 +116,19 @@ export default async function BlogPage({
       </PageHero>
 
       <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            {postsSection.eyebrow ? (
-              <p className="mb-2 font-mono text-xs tracking-[0.3em] text-[#1E90FF] uppercase">
-                {postsSection.eyebrow}
-              </p>
-            ) : null}
-            <h2 className="text-2xl font-semibold tracking-tight">
-              {postsSection.title ?? "Latest posts"}
-            </h2>
-            <RichText
-              html={postsSection.bodyHtml}
-              className="mt-3 max-w-2xl text-zinc-400"
-            />
-          </div>
-          <div className="flex flex-wrap items-center gap-4">
-            {listing.totalPages > 1 ? (
-              <Suspense fallback={null}>
-                <BlogPerPageSelect currentPageSize={listing.pageSize} />
-              </Suspense>
-            ) : null}
-            <p className="text-xs text-zinc-500">
-              {listing.total} published {listing.total === 1 ? "post" : "posts"}
+        <div>
+          {postsSection.eyebrow ? (
+            <p className="mb-2 font-mono text-xs tracking-[0.3em] text-[#1E90FF] uppercase">
+              {postsSection.eyebrow}
             </p>
-          </div>
+          ) : null}
+          <h2 className="text-2xl font-semibold tracking-tight">
+            {postsSection.title ?? "Latest posts"}
+          </h2>
+          <RichText
+            html={postsSection.bodyHtml}
+            className="mt-3 max-w-2xl text-zinc-400"
+          />
         </div>
 
         {listing.posts.length === 0 ? (
@@ -216,7 +203,7 @@ export default async function BlogPage({
                 className="rounded-none border-zinc-700"
               >
                 <Link
-                  href={blogListingHref(listing.page - 1, listing.pageSize)}
+                  href={blogListingHref(listing.page - 1)}
                 >
                   Previous
                 </Link>
@@ -249,7 +236,7 @@ export default async function BlogPage({
                   className="rounded-none"
                 >
                   <Link
-                    href={blogListingHref(page, listing.pageSize)}
+                    href={blogListingHref(page)}
                     aria-current={page === listing.page ? "page" : undefined}
                   >
                     {page}
@@ -266,7 +253,7 @@ export default async function BlogPage({
                 className="rounded-none border-zinc-700"
               >
                 <Link
-                  href={blogListingHref(listing.page + 1, listing.pageSize)}
+                  href={blogListingHref(listing.page + 1)}
                 >
                   Next
                 </Link>

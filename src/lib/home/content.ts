@@ -4,7 +4,6 @@ export const homeCopy = {
     { id: "services", label: "Services" },
     { id: "experience", label: "Experience" },
     { id: "technology", label: "Technology" },
-    { id: "team", label: "Team" },
     { id: "process", label: "Process" },
     { id: "why", label: "Why Us" },
     { id: "contact", label: "Contact" },

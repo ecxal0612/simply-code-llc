@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Plus } from "lucide-react";
+import { ExternalLink, Plus } from "lucide-react";
 import { PostsList } from "~/app/dashboard/posts/posts-list";
 import { Button } from "~/components/ui/button";
 import { listPostsWithAuthors } from "~/server/posts";
@@ -17,12 +17,20 @@ export default async function DashboardPostsPage() {
             public blog until you publish them.
           </p>
         </div>
-        <Button asChild>
-          <Link href="/dashboard/posts/new">
-            <Plus className="mr-2 size-4" />
-            Create new post
-          </Link>
-        </Button>
+        <div className="flex flex-wrap items-center gap-2">
+          <Button asChild variant="outline">
+            <Link href="/blog" target="_blank" rel="noreferrer">
+              <ExternalLink className="mr-2 size-4" />
+              View blog
+            </Link>
+          </Button>
+          <Button asChild>
+            <Link href="/dashboard/posts/new">
+              <Plus className="mr-2 size-4" />
+              Create new post
+            </Link>
+          </Button>
+        </div>
       </div>
 
       <PostsList posts={posts} />

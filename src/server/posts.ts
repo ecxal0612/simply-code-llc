@@ -31,6 +31,7 @@ export async function listPosts(): Promise<PostRecord[]> {
 export type PostWithAuthor = PostRecord & {
   authorName: string | null;
   authorEmail: string | null;
+  authorImage?: string | null;
 };
 
 export async function listPostsWithAuthors(): Promise<PostWithAuthor[]> {
@@ -82,6 +83,34 @@ export async function getPostBySlug(
   if (!post) return null;
   if (!includeDrafts && post.status !== "published") return null;
   return post;
+}
+
+export async function getPostWithAuthorBySlug(
+  slug: string,
+  { includeDrafts = false }: { includeDrafts?: boolean } = {},
+): Promise<PostWithAuthor | null> {
+  const rows = await db
+    .select({
+      post: posts,
+      authorName: users.name,
+      authorEmail: users.email,
+      authorImage: users.image,
+    })
+    .from(posts)
+    .innerJoin(users, eq(posts.authorId, users.id))
+    .where(eq(posts.slug, slug))
+    .limit(1);
+
+  const row = rows[0];
+  if (!row) return null;
+  if (!includeDrafts && row.post.status !== "published") return null;
+
+  return {
+    ...row.post,
+    authorName: row.authorName,
+    authorEmail: row.authorEmail,
+    authorImage: row.authorImage,
+  };
 }
 
 export async function listPublishedPosts({

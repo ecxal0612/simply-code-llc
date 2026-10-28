@@ -20,7 +20,7 @@ import { cn } from "~/lib/utils";
 
 type SlotRow = {
   id: HomepageImageSlotId;
-  sectionId: "hero" | "experience" | "team";
+  sectionId: "hero" | "experience";
   sectionTitle: string;
   label: string;
   description: string;
@@ -226,12 +226,7 @@ export function HomepageImagesManager() {
             <h3 className="text-sm font-semibold tracking-wide uppercase">
               {section.title}
             </h3>
-            <div
-              className={cn(
-                "grid gap-4",
-                section.id === "team" ? "sm:grid-cols-2" : "max-w-xl",
-              )}
-            >
+            <div className={cn("grid max-w-xl gap-4")}>
               {sectionSlots.map((slot) => {
                 const pending = pendingBySlot[slot.id];
                 return (

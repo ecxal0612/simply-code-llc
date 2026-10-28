@@ -304,29 +304,6 @@ export const defaultPages: DefaultPage[] = [
         },
       },
       {
-        key: "team",
-        label: "Team",
-        kind: "home-team",
-        content: {
-          eyebrow: "Team",
-          title: "A focused team of four developers",
-          bodyHtml: p(
-            "We work across frontend and backend to deliver complete solutions. Collaboration, clarity, and care go into every project.",
-          ),
-          ctaLabel: "Meet the team",
-          ctaHref: "/about",
-          secondaryCtaLabel: "Get in touch",
-          secondaryCtaHref: "/contact",
-          items: [
-            {
-              title: "Full-stack mindset",
-              description:
-                "From interfaces to APIs and deployment, we cover the full picture to keep projects moving efficiently.",
-            },
-          ],
-        },
-      },
-      {
         key: "process",
         label: "Development Process",
         kind: "home-process",
@@ -704,6 +681,7 @@ export const defaultPages: DefaultPage[] = [
           bodyHtml: p(
             "New articles are published automatically as they are marked published in the dashboard.",
           ),
+          postsPerPage: 6,
         },
       },
       {

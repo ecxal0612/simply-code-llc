@@ -6,9 +6,12 @@ import {
   type DashboardNavSection,
 } from "~/app/dashboard/dashboard-sidebar-nav";
 import { SignOutButton } from "~/components/sign-out-button";
+import { SiteBrandLogo } from "~/components/site/site-brand-logo";
 import { auth } from "~/lib/auth";
 import { isAdminRole } from "~/lib/auth/roles";
+import { homeCopy } from "~/lib/home/content";
 import { Button } from "~/components/ui/button";
+import { getSiteLogoUrl } from "~/server/site-header";
 
 export const dynamic = "force-dynamic";
 
@@ -70,6 +73,7 @@ export default async function DashboardLayout({
 }) {
   const session = await auth();
   const isAdmin = isAdminRole(session?.user.role);
+  const logoUrl = await getSiteLogoUrl();
   const visibleSections: DashboardNavSection[] = navSections
     .map((section) => ({
       title: section.title,
@@ -85,10 +89,11 @@ export default async function DashboardLayout({
         <aside className="bg-card sticky top-0 flex h-screen w-64 shrink-0 flex-col overflow-y-auto border-r max-lg:hidden">
           <div className="flex h-16 items-center border-b px-6">
             <Link href="/" className="flex items-center gap-2">
-              <span className="bg-primary/10 text-primary flex size-8 items-center justify-center rounded-md font-mono text-xs font-bold">
-                SC
-              </span>
-              <span className="text-sm font-semibold">Simply Code LLC</span>
+              <SiteBrandLogo
+                brand={homeCopy.brand}
+                logoUrl={logoUrl}
+                variant="dashboard"
+              />
             </Link>
           </div>
           <DashboardSidebarNav sections={visibleSections} />

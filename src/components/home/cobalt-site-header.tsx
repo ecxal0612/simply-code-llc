@@ -1,7 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
 import { AuthNavLink } from "~/components/home/auth-nav-link";
 import { HomeMobileNav } from "~/components/home/home-mobile-nav";
+import { SiteBrandLogo } from "~/components/site/site-brand-logo";
 import { Button } from "~/components/ui/button";
 import type { SiteNavItem } from "~/lib/site/header";
 import { cobaltClass } from "~/lib/home/cobalt-theme";
@@ -22,25 +22,7 @@ export function CobaltSiteHeader({
     <header className="sticky top-0 z-50 border-b border-white/10 bg-zinc-950/90 backdrop-blur-md supports-[backdrop-filter]:bg-zinc-950/75">
       <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-4">
         <Link href="/" className="flex shrink-0 items-center gap-2">
-          {logoUrl ? (
-            <Image
-              src={logoUrl}
-              alt={`${brand} logo`}
-              width={32}
-              height={32}
-              className="size-8 rounded-md object-contain"
-            />
-          ) : (
-            <span
-              className={cn(
-                "flex size-8 items-center justify-center rounded-md font-mono text-xs font-bold",
-                cobaltClass.logo,
-              )}
-            >
-              SC
-            </span>
-          )}
-          <span className="text-sm font-semibold tracking-tight">{brand}</span>
+          <SiteBrandLogo brand={brand} logoUrl={logoUrl} />
         </Link>
 
         <nav className="hidden items-center gap-6 xl:flex">

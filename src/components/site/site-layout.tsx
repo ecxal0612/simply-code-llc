@@ -1,4 +1,4 @@
-import { CobaltSiteFooter } from "~/components/home/cobalt-site-footer";
+import { SiteFooter } from "~/components/site/site-footer";
 import { SiteHeader } from "~/components/site/site-header";
 import { auth } from "~/lib/auth";
 
@@ -18,7 +18,7 @@ export async function SiteLayout({ children }: { children: React.ReactNode }) {
       />
       <SiteHeader isLoggedIn={!!session?.user} />
       <main>{children}</main>
-      <CobaltSiteFooter />
+      <SiteFooter />
     </div>
   );
 }

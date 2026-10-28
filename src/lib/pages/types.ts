@@ -37,6 +37,8 @@ export type PageSectionContent = {
   contactForm?: ContactFormContent;
   /** Display date for policy-style pages. */
   updatedAtLabel?: string;
+  /** Blog listing page size (6, 9, or 12). Used by `blog-posts` sections. */
+  postsPerPage?: number;
 };
 
 export type PageSectionKind =
@@ -44,7 +46,6 @@ export type PageSectionKind =
   | "home-services"
   | "home-experience"
   | "home-technology"
-  | "home-team"
   | "home-process"
   | "home-projects"
   | "home-contact"

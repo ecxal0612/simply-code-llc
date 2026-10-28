@@ -1,22 +1,12 @@
-import { homeCopy } from "~/lib/home/content";
-
-export type HomepageImageSlotId =
-  | "home.hero"
-  | "home.experience"
-  | "home.team.0"
-  | "home.team.1"
-  | "home.team.2"
-  | "home.team.3";
+export type HomepageImageSlotId = "home.hero" | "home.experience";
 
 export type HomepageImageSlot = {
   id: HomepageImageSlotId;
-  sectionId: "hero" | "experience" | "team";
+  sectionId: "hero" | "experience";
   sectionTitle: string;
   label: string;
   description: string;
 };
-
-const teamMembers = homeCopy.team.members;
 
 export const homepageImageSlots: HomepageImageSlot[] = [
   {
@@ -33,13 +23,6 @@ export const homepageImageSlots: HomepageImageSlot[] = [
     label: "Experience section image",
     description: "Image shown beside the Zoom / enterprise experience copy.",
   },
-  ...teamMembers.map((member, index) => ({
-    id: `home.team.${index}` as HomepageImageSlotId,
-    sectionId: "team" as const,
-    sectionTitle: "Team",
-    label: `${member.name} — photo`,
-    description: `Team card image for ${member.role}. ${member.bio}`,
-  })),
 ];
 
 export const homepageImageSlotIds = homepageImageSlots.map((s) => s.id);
@@ -57,5 +40,4 @@ export function getHomepageImageSlot(id: HomepageImageSlotId): HomepageImageSlot
 export const homepageImageSections = [
   { id: "hero" as const, title: "Hero" },
   { id: "experience" as const, title: "Experience" },
-  { id: "team" as const, title: "Team" },
 ];

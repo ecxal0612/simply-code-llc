@@ -1,7 +1,12 @@
 import "server-only";
 
 import { auth } from "~/lib/auth";
-import { getPostBySlug, type PostRecord } from "~/server/posts";
+import {
+  getPostBySlug,
+  getPostWithAuthorBySlug,
+  type PostRecord,
+  type PostWithAuthor,
+} from "~/server/posts";
 
 export type PostSearchParams =
   | Promise<Record<string, string | string[] | undefined>>
@@ -36,4 +41,21 @@ export async function getPostForViewer(
   }
 
   return getPostBySlug(slug, { includeDrafts: true });
+}
+
+export async function getPostWithAuthorForViewer(
+  slug: string,
+  searchParams?: PostSearchParams,
+): Promise<PostWithAuthor | null> {
+  const params = await searchParams;
+  if (!isPreviewRequest(params)) {
+    return getPostWithAuthorBySlug(slug);
+  }
+
+  const session = await auth();
+  if (!session?.user?.id) {
+    return getPostWithAuthorBySlug(slug);
+  }
+
+  return getPostWithAuthorBySlug(slug, { includeDrafts: true });
 }
