@@ -20,4 +20,6 @@ export const cobaltClass = {
   cardHover: "hover:border-[#1E90FF]/40",
   sectionTech: "bg-[#1c71b8] text-white",
   inputRing: "focus-visible:ring-[#1E90FF]/40",
+  radiusButton: "rounded-[10px]",
+  radiusSurface: "rounded-[18px]",
 } as const;

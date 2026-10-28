@@ -45,7 +45,7 @@ export default async function ContactPage({
         descriptionHtml={hero.bodyHtml}
       >
         {hero.ctaLabel ? (
-          <Button asChild size="lg" className="rounded-none px-8">
+          <Button asChild size="lg" className="rounded-[10px] px-8">
             <Link href={hero.ctaHref ?? "/contact"}>
               {hero.ctaLabel}
               <ArrowUpRight className="size-4" />
@@ -57,7 +57,7 @@ export default async function ContactPage({
             asChild
             size="lg"
             variant="outline"
-            className="rounded-none border-zinc-600 bg-transparent text-zinc-100 hover:bg-white/5"
+            className="rounded-[10px] border-zinc-600 bg-transparent text-zinc-100 hover:bg-white/5"
           >
             <Link href={hero.secondaryCtaHref ?? "/work"}>
               {hero.secondaryCtaLabel}
@@ -100,7 +100,7 @@ export default async function ContactPage({
               ))}
             </div>
           </div>
-          <div className="border border-white/10 bg-zinc-900/40 p-6 md:p-10">
+          <div className="rounded-[18px] border border-white/10 bg-zinc-900/40 p-6 md:p-10">
             <ContactForm content={contactForm} />
           </div>
         </div>

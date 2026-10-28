@@ -70,7 +70,7 @@ export function ContactForm({
   if (sent) {
     return (
       <div
-        className="border border-emerald-500/30 bg-emerald-500/10 px-6 py-12 text-center"
+        className="rounded-[18px] border border-emerald-500/30 bg-emerald-500/10 px-6 py-12 text-center"
         role="status"
         aria-live="polite"
       >
@@ -84,7 +84,7 @@ export function ContactForm({
         <Button
           type="button"
           variant="outline"
-          className="mt-6 rounded-none"
+          className="mt-6"
           onClick={() => setSent(false)}
         >
           {content.sendAnotherLabel}
@@ -108,7 +108,6 @@ export function ContactForm({
             id="contact-name"
             placeholder={content.namePlaceholder}
             autoComplete="name"
-            className="rounded-none"
             aria-invalid={Boolean(errors.name)}
             {...form.register("name")}
           />
@@ -121,7 +120,6 @@ export function ContactForm({
             type="email"
             placeholder={content.emailPlaceholder}
             autoComplete="email"
-            className="rounded-none"
             aria-invalid={Boolean(errors.email)}
             {...form.register("email")}
           />
@@ -135,7 +133,6 @@ export function ContactForm({
           id="contact-company"
           placeholder={content.companyPlaceholder}
           autoComplete="organization"
-          className="rounded-none"
           aria-invalid={Boolean(errors.company)}
           {...form.register("company")}
         />
@@ -149,7 +146,7 @@ export function ContactForm({
           </Label>
           <select
             id="contact-project-type"
-            className="border-input focus-visible:ring-ring h-9 w-full rounded-none border bg-transparent px-3 py-1 text-sm shadow-sm focus-visible:ring-2 focus-visible:outline-none"
+            className="border-input focus-visible:ring-ring h-9 w-full rounded-[18px] border bg-transparent px-3 py-1 text-sm shadow-sm focus-visible:ring-2 focus-visible:outline-none"
             aria-invalid={Boolean(errors.projectType)}
             {...form.register("projectType")}
           >
@@ -166,7 +163,7 @@ export function ContactForm({
           <Label htmlFor="contact-budget">{content.budgetLabel}</Label>
           <select
             id="contact-budget"
-            className="border-input focus-visible:ring-ring h-9 w-full rounded-none border bg-transparent px-3 py-1 text-sm shadow-sm focus-visible:ring-2 focus-visible:outline-none"
+            className="border-input focus-visible:ring-ring h-9 w-full rounded-[18px] border bg-transparent px-3 py-1 text-sm shadow-sm focus-visible:ring-2 focus-visible:outline-none"
             {...form.register("budget")}
           >
             <option value="">{content.budgetPlaceholder}</option>
@@ -186,7 +183,6 @@ export function ContactForm({
           id="contact-details"
           rows={6}
           placeholder={content.detailsPlaceholder}
-          className="rounded-none"
           aria-invalid={Boolean(errors.details)}
           {...form.register("details")}
         />
@@ -195,7 +191,7 @@ export function ContactForm({
 
       {serverError ? (
         <p
-          className="border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-300"
+          className="rounded-[18px] border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-300"
           role="alert"
         >
           {serverError}
@@ -205,7 +201,6 @@ export function ContactForm({
       <Button
         type="submit"
         size="lg"
-        className="rounded-none"
         disabled={form.formState.isSubmitting}
       >
         {form.formState.isSubmitting ? (

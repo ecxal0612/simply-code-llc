@@ -95,7 +95,7 @@ export function CobaltHomepage({
               <Button
                 asChild
                 size="lg"
-                className={cn("h-11 rounded-none px-7", cobaltClass.btn)}
+                className={cn("h-11 rounded-[10px] px-7", cobaltClass.btn)}
               >
                 <a href={hero.ctaHref ?? "#contact"}>
                   {hero.ctaLabel}
@@ -108,7 +108,7 @@ export function CobaltHomepage({
                 asChild
                 size="lg"
                 variant="outline"
-                className="h-11 rounded-none border-zinc-600 bg-transparent text-zinc-100 hover:bg-white/5"
+                className="h-11 rounded-[10px] border-zinc-600 bg-transparent text-zinc-100 hover:bg-white/5"
               >
                 <a href={hero.secondaryCtaHref ?? "#services"}>
                   {hero.secondaryCtaLabel}
@@ -139,7 +139,7 @@ export function CobaltHomepage({
                 <Button
                   asChild
                   variant="outline"
-                  className="rounded-none border-zinc-600 text-zinc-100"
+                  className="rounded-[10px] border-zinc-600 text-zinc-100"
                 >
                   <a href={services.ctaHref ?? "/services"}>
                     {services.ctaLabel}
@@ -151,7 +151,7 @@ export function CobaltHomepage({
                 <Button
                   asChild
                   variant="outline"
-                  className="rounded-none border-zinc-700 text-zinc-300 hover:bg-white/5"
+                  className="rounded-[10px] border-zinc-700 text-zinc-300 hover:bg-white/5"
                 >
                   <a href={services.secondaryCtaHref ?? "/work"}>
                     {services.secondaryCtaLabel}
@@ -164,7 +164,7 @@ export function CobaltHomepage({
             {(services.items ?? []).map((item, index) => (
               <div
                 key={`${item.title}-${index}`}
-                className="relative overflow-hidden border border-white/10 p-6 transition hover:border-[#1E90FF]/60 hover:bg-white/[0.02]"
+                className="relative overflow-hidden rounded-[18px] border border-white/10 p-6 transition hover:border-[#1E90FF]/60 hover:bg-white/[0.02]"
               >
                 <div className="absolute -top-10 -right-10 h-24 w-24 rounded-full bg-[#1E90FF]/10 blur-3xl" />
                 <div className="relative">
@@ -195,7 +195,7 @@ export function CobaltHomepage({
       </section>
 
       <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="relative overflow-hidden border border-white/10">
+        <div className="relative overflow-hidden rounded-[18px] border border-white/10">
           <div className="absolute inset-0">
             <Image
               src={imageFor(experience, "home.experience")}
@@ -228,7 +228,7 @@ export function CobaltHomepage({
                   <Button
                     asChild
                     variant="outline"
-                    className="rounded-none border-white/40 text-zinc-100 hover:bg-white/5"
+                    className="rounded-[10px] border-white/40 text-zinc-100 hover:bg-white/5"
                   >
                     <a href={experience.ctaHref ?? "/work"}>
                       {experience.ctaLabel}
@@ -240,7 +240,7 @@ export function CobaltHomepage({
                   <Button
                     asChild
                     variant="outline"
-                    className="rounded-none border-white/20 text-zinc-300 hover:bg-white/5"
+                    className="rounded-[10px] border-white/20 text-zinc-300 hover:bg-white/5"
                   >
                     <a href={experience.secondaryCtaHref ?? "/about"}>
                       {experience.secondaryCtaLabel}
@@ -250,7 +250,7 @@ export function CobaltHomepage({
               </div>
             </div>
             <div className="hidden lg:col-span-5 lg:flex lg:justify-end">
-              <div className="relative h-40 w-full max-w-sm border border-white/15">
+              <div className="relative h-40 w-full max-w-sm rounded-[18px] border border-white/15">
                 <Image
                   src={imageFor(experience, "home.experience")}
                   alt={experience.images?.[0]?.alt ?? ""}
@@ -286,7 +286,7 @@ export function CobaltHomepage({
                 <Button
                   asChild
                   variant="outline"
-                  className="rounded-none border-white/40 text-white hover:bg-white/10"
+                  className="rounded-[10px] border-white/40 text-white hover:bg-white/10"
                 >
                   <a href={technology.ctaHref ?? "/services"}>
                     {technology.ctaLabel}
@@ -298,7 +298,7 @@ export function CobaltHomepage({
                 <Button
                   asChild
                   variant="outline"
-                  className="rounded-none border-white/20 text-white/80 hover:bg-white/10"
+                  className="rounded-[10px] border-white/20 text-white/80 hover:bg-white/10"
                 >
                   <a href={technology.secondaryCtaHref ?? "/work"}>
                     {technology.secondaryCtaLabel}
@@ -311,7 +311,7 @@ export function CobaltHomepage({
             {(technology.items ?? []).map((item, index) => (
               <div
                 key={`${item.title}-${index}`}
-                className="border border-white/30 px-4 py-3 text-white/90"
+                className="rounded-[18px] border border-white/30 px-4 py-3 text-white/90"
               >
                 {item.meta ? (
                   <p className="font-mono text-[10px] tracking-[0.25em] text-white/60 uppercase">
@@ -350,7 +350,7 @@ export function CobaltHomepage({
                 <Button
                   asChild
                   variant="outline"
-                  className="rounded-none border-zinc-600 text-zinc-100"
+                  className="rounded-[10px] border-zinc-600 text-zinc-100"
                 >
                   <a href={process.ctaHref ?? "/about"}>
                     {process.ctaLabel}
@@ -362,7 +362,7 @@ export function CobaltHomepage({
                 <Button
                   asChild
                   variant="outline"
-                  className="rounded-none border-zinc-700 text-zinc-300 hover:bg-white/5"
+                  className="rounded-[10px] border-zinc-700 text-zinc-300 hover:bg-white/5"
                 >
                   <a href={process.secondaryCtaHref ?? "/contact"}>
                     {process.secondaryCtaLabel}
@@ -375,7 +375,7 @@ export function CobaltHomepage({
             {(process.items ?? []).map((item, index) => (
               <div
                 key={`${item.title}-${index}`}
-                className="relative border border-white/10 p-5 transition hover:border-[#1E90FF]/60 hover:bg-white/[0.02]"
+                className="relative rounded-[18px] border border-white/10 p-5 transition hover:border-[#1E90FF]/60 hover:bg-white/[0.02]"
               >
                 <span className={cn("font-mono text-sm", cobaltClass.accent)}>
                   {item.meta ?? String(index + 1).padStart(2, "0")}
@@ -417,7 +417,7 @@ export function CobaltHomepage({
               <Button
                 asChild
                 variant="outline"
-                className="rounded-none border-zinc-600 text-zinc-100"
+                className="rounded-[10px] border-zinc-600 text-zinc-100"
               >
                 <a href={projects.ctaHref ?? "/work"}>
                   {projects.ctaLabel}
@@ -429,7 +429,7 @@ export function CobaltHomepage({
               <Button
                 asChild
                 variant="outline"
-                className="rounded-none border-zinc-700 text-zinc-300 hover:bg-white/5"
+                className="rounded-[10px] border-zinc-700 text-zinc-300 hover:bg-white/5"
               >
                 <a href={projects.secondaryCtaHref ?? "/contact"}>
                   {projects.secondaryCtaLabel}
@@ -445,7 +445,10 @@ export function CobaltHomepage({
             )
             .filter((item): item is NonNullable<typeof item> => Boolean(item))
             .map((item) => (
-              <article key={item.key} className="border border-white/10">
+              <article
+                key={item.key}
+                className="overflow-hidden rounded-[16px] border border-white/10"
+              >
                 <div className="relative aspect-[16/10] bg-gradient-to-br from-[#1E90FF]/25 to-transparent">
                   {item.imageUrl ? (
                     <Image
@@ -498,7 +501,7 @@ export function CobaltHomepage({
               <Button
                 asChild
                 size="lg"
-                className="rounded-none bg-white px-8 text-zinc-950 hover:bg-white/90"
+                className="rounded-[10px] bg-white px-8 text-zinc-950 hover:bg-white/90"
               >
                 <a href={contact.ctaHref ?? "/contact"}>
                   {contact.ctaLabel}
@@ -511,7 +514,7 @@ export function CobaltHomepage({
                 asChild
                 size="lg"
                 variant="outline"
-                className="rounded-none border-white/70 bg-transparent text-white hover:bg-white/10"
+                className="rounded-[10px] border-white/70 bg-transparent text-white hover:bg-white/10"
               >
                 <a href={contact.secondaryCtaHref ?? "/services"}>
                   {contact.secondaryCtaLabel}

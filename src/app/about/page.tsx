@@ -61,7 +61,7 @@ export default async function AboutPage({
         descriptionHtml={hero.bodyHtml}
       >
         {hero.ctaLabel ? (
-          <Button asChild size="lg" className="rounded-none px-8">
+          <Button asChild size="lg" className="rounded-[10px] px-8">
             <Link href={hero.ctaHref ?? "/contact"}>
               {hero.ctaLabel}
               <ArrowUpRight className="size-4" />
@@ -73,7 +73,7 @@ export default async function AboutPage({
             asChild
             size="lg"
             variant="outline"
-            className="rounded-none border-zinc-600 bg-transparent text-zinc-100 hover:bg-white/5"
+            className="rounded-[10px] border-zinc-600 bg-transparent text-zinc-100 hover:bg-white/5"
           >
             <Link href={hero.secondaryCtaHref ?? "/work"}>
               {hero.secondaryCtaLabel}
@@ -99,7 +99,7 @@ export default async function AboutPage({
                 ". ",
               );
               return (
-                <div key={item.title} className="border border-white/10 p-6">
+                <div key={item.title} className="rounded-[18px] border border-white/10 p-6">
                   <p className="font-mono text-xs tracking-[0.3em] text-[#1E90FF] uppercase">
                     {item.title}
                   </p>
@@ -139,7 +139,7 @@ export default async function AboutPage({
               {teamMembers.map((member) => (
                 <article
                   key={member.id}
-                  className="relative overflow-hidden border border-white/10 p-6"
+                  className="relative overflow-hidden rounded-[18px] border border-white/10 p-6"
                 >
                   <div className="absolute -top-12 -right-12 h-28 w-28 rounded-full bg-[#1E90FF]/10 blur-3xl" />
                   <div className="relative flex items-start gap-4">
@@ -204,7 +204,7 @@ export default async function AboutPage({
             {(why.items ?? []).map((item) => (
               <div
                 key={item.title}
-                className="relative overflow-hidden border border-white/10 p-5"
+                className="relative overflow-hidden rounded-[18px] border border-white/10 p-5"
               >
                 <div className="absolute -top-8 -right-8 h-20 w-20 rounded-full bg-[#1E90FF]/10 blur-2xl" />
                 <div className="relative">

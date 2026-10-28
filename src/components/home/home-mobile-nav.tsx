@@ -51,19 +51,19 @@ export function HomeMobileNav({
           </ul>
           <div className="mt-5 flex flex-col gap-2 border-t border-white/10 pt-5">
             {isLoggedIn ? (
-              <Button asChild size="sm" className={cn("rounded-none", cobaltClass.btn)}>
+              <Button asChild size="sm" className={cn("rounded-[10px]", cobaltClass.btn)}>
                 <Link href="/dashboard" onClick={() => setOpen(false)}>Dashboard</Link>
               </Button>
             ) : (
               <>
-                <Button asChild size="sm" className={cn("rounded-none", cobaltClass.btn)}>
+                <Button asChild size="sm" className={cn("rounded-[10px]", cobaltClass.btn)}>
                   <AuthNavLink href="/login" onClick={() => setOpen(false)}>Sign In</AuthNavLink>
                 </Button>
                 <Button
                   asChild
                   size="sm"
                   variant="outline"
-                  className="rounded-none border-[#4682B4]/60 bg-transparent text-zinc-100 hover:border-[#1E90FF] hover:bg-white/5"
+                  className="rounded-[10px] border-[#4682B4]/60 bg-transparent text-zinc-100 hover:border-[#1E90FF] hover:bg-white/5"
                 >
                   <AuthNavLink href="/register" onClick={() => setOpen(false)}>Create Account</AuthNavLink>
                 </Button>

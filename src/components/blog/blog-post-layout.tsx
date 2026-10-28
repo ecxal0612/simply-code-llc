@@ -44,7 +44,7 @@ export function BlogPostLayout({ post, relatedPosts }: BlogPostLayoutProps) {
               </h1>
 
               {post.status === "draft" ? (
-                <span className="mt-4 inline-block border border-amber-500/40 bg-amber-500/10 px-2.5 py-1 text-[11px] font-medium text-amber-300">
+                <span className="mt-4 inline-block rounded-[18px] border border-amber-500/40 bg-amber-500/10 px-2.5 py-1 text-[11px] font-medium text-amber-300">
                   Draft preview
                 </span>
               ) : null}
@@ -83,7 +83,7 @@ export function BlogPostLayout({ post, relatedPosts }: BlogPostLayoutProps) {
               <PostFeaturedImage
                 src={post.featuredImageUrl}
                 alt={post.title}
-                className="w-full overflow-hidden rounded-2xl border border-white/10"
+                className="w-full overflow-hidden rounded-[18px] border border-white/10"
                 sizes="(max-width: 1024px) 100vw, 1024px"
                 priority
               />
@@ -130,12 +130,11 @@ export function BlogPostLayout({ post, relatedPosts }: BlogPostLayoutProps) {
                 {relatedPosts.map((related) => (
                   <article
                     key={related.id}
-                    className="group flex flex-col border border-white/10 bg-zinc-950/50 transition-colors hover:border-[#1E90FF]/40"
+                    className="group flex flex-col overflow-hidden rounded-[16px] border border-white/10 bg-zinc-950/50 transition-colors hover:border-[#1E90FF]/40"
                   >
                     <PostFeaturedImage
                       src={related.featuredImageUrl}
                       alt={related.title}
-                      className="rounded-none"
                     />
                     <div className="flex flex-1 flex-col p-6">
                       <div className="flex flex-wrap items-center gap-2 text-xs text-zinc-500">
@@ -145,7 +144,7 @@ export function BlogPostLayout({ post, relatedPosts }: BlogPostLayoutProps) {
                         {related.categories.map((category) => (
                           <span
                             key={category}
-                            className="border border-white/10 px-2 py-0.5 text-[11px] font-semibold text-zinc-300"
+                            className="rounded-[18px] border border-white/10 px-2 py-0.5 text-[11px] font-semibold text-zinc-300"
                           >
                             {category}
                           </span>

@@ -113,7 +113,7 @@ export function CobaltSiteFooter({
           <Link
             href="/contact"
             className={cn(
-              "inline-flex items-center justify-center rounded-none px-5 py-2 text-sm font-medium transition",
+              "inline-flex items-center justify-center rounded-[10px] px-5 py-2 text-sm font-medium transition",
               cobaltClass.btn,
             )}
           >

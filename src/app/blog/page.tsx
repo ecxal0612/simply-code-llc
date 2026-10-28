@@ -94,7 +94,7 @@ export default async function BlogPage({
         descriptionHtml={hero.bodyHtml}
       >
         {hero.ctaLabel ? (
-          <Button asChild size="lg" className="rounded-none px-8">
+          <Button asChild size="lg" className="rounded-[10px] px-8">
             <Link href={hero.ctaHref ?? "/contact"}>
               {hero.ctaLabel}
               <ArrowUpRight className="size-4" />
@@ -106,7 +106,7 @@ export default async function BlogPage({
             asChild
             size="lg"
             variant="outline"
-            className="rounded-none border-zinc-600 bg-transparent text-zinc-100 hover:bg-white/5"
+            className="rounded-[10px] border-zinc-600 bg-transparent text-zinc-100 hover:bg-white/5"
           >
             <Link href={hero.secondaryCtaHref ?? "/work"}>
               {hero.secondaryCtaLabel}
@@ -132,7 +132,7 @@ export default async function BlogPage({
         </div>
 
         {listing.posts.length === 0 ? (
-          <div className="mt-8 border border-white/10 p-10 text-center">
+          <div className="mt-8 rounded-[18px] border border-white/10 p-10 text-center">
             <p className="font-medium">No posts published yet.</p>
             <p className="mt-2 text-sm text-zinc-400">
               Check back soon for new articles and updates.
@@ -143,7 +143,7 @@ export default async function BlogPage({
             {listing.posts.map((post) => (
               <article
                 key={post.id}
-                className="flex flex-col border border-white/10"
+                className="flex flex-col overflow-hidden rounded-[16px] border border-white/10"
               >
                 <PostFeaturedImage
                   src={post.featuredImageUrl}
@@ -157,7 +157,7 @@ export default async function BlogPage({
                     {post.categories.map((category) => (
                       <span
                         key={category}
-                        className="border border-white/10 px-2 py-0.5 text-[11px] text-zinc-400"
+                        className="rounded-[18px] border border-white/10 px-2 py-0.5 text-[11px] text-zinc-400"
                       >
                         {category}
                       </span>
@@ -200,7 +200,7 @@ export default async function BlogPage({
                 asChild
                 variant="outline"
                 size="sm"
-                className="rounded-none border-zinc-700"
+                className="rounded-[10px] border-zinc-700"
               >
                 <Link
                   href={blogListingHref(listing.page - 1)}
@@ -212,7 +212,7 @@ export default async function BlogPage({
               <Button
                 variant="outline"
                 size="sm"
-                className="rounded-none border-zinc-700"
+                className="rounded-[10px] border-zinc-700"
                 disabled
               >
                 Previous
@@ -233,7 +233,7 @@ export default async function BlogPage({
                   asChild
                   size="sm"
                   variant={page === listing.page ? "default" : "outline"}
-                  className="rounded-none"
+                  className="rounded-[10px]"
                 >
                   <Link
                     href={blogListingHref(page)}
@@ -250,7 +250,7 @@ export default async function BlogPage({
                 asChild
                 variant="outline"
                 size="sm"
-                className="rounded-none border-zinc-700"
+                className="rounded-[10px] border-zinc-700"
               >
                 <Link
                   href={blogListingHref(listing.page + 1)}
@@ -262,7 +262,7 @@ export default async function BlogPage({
               <Button
                 variant="outline"
                 size="sm"
-                className="rounded-none border-zinc-700"
+                className="rounded-[10px] border-zinc-700"
                 disabled
               >
                 Next

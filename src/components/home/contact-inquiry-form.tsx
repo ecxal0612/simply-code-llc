@@ -63,12 +63,12 @@ export function ContactInquiryForm({ className }: { className?: string }) {
           rows={4}
           placeholder={f.details}
           className={cn(
-            "flex w-full rounded-md border px-3 py-2 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2",
+            "flex w-full rounded-[18px] border px-3 py-2 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2",
             inputCn,
           )}
         />
       </div>
-      <Button type="submit" disabled={pending} size="lg" className={cn(cobaltClass.btn, "rounded-none")}>
+      <Button type="submit" disabled={pending} size="lg" className={cn(cobaltClass.btn, "rounded-[10px]")}>
         {pending ? "Sending…" : f.submit}
       </Button>
     </form>

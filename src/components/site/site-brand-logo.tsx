@@ -24,9 +24,9 @@ export function SiteBrandLogo({
 }: SiteBrandLogoProps) {
   const fallbackClassName =
     variant === "dashboard"
-      ? "bg-primary/10 text-primary flex size-8 items-center justify-center rounded-md font-mono text-xs font-bold"
+      ? "bg-primary/10 text-primary flex size-8 items-center justify-center rounded-[18px] font-mono text-xs font-bold"
       : cn(
-          "flex size-8 items-center justify-center rounded-md font-mono text-xs font-bold",
+          "flex size-8 items-center justify-center rounded-[18px] font-mono text-xs font-bold",
           cobaltClass.logo,
         );
 
@@ -38,7 +38,7 @@ export function SiteBrandLogo({
           alt={`${brand} logo`}
           width={32}
           height={32}
-          className={cn("size-8 rounded-md object-contain", imageClassName)}
+          className={cn("size-8 object-contain", imageClassName)}
         />
       ) : (
         <span className={cn(fallbackClassName, imageClassName)}>SC</span>

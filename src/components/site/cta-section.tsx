@@ -47,7 +47,7 @@ export function CtaSection({
           <Button
             asChild
             size="lg"
-            className="rounded-none bg-white px-8 text-zinc-950 hover:bg-white/90"
+            className="rounded-[10px] bg-white px-8 text-zinc-950 hover:bg-white/90"
           >
             <Link href={href}>
               {ctaLabel}
@@ -59,7 +59,7 @@ export function CtaSection({
               asChild
               size="lg"
               variant="outline"
-              className="rounded-none border-white/70 bg-transparent text-white hover:bg-white/10"
+              className="rounded-[10px] border-white/70 bg-transparent text-white hover:bg-white/10"
             >
               <Link href={secondaryCtaHref}>{secondaryCtaLabel}</Link>
             </Button>

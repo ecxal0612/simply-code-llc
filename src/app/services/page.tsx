@@ -16,7 +16,7 @@ function ServiceFeatureItems({ items }: { items: PageSectionItem[] }) {
       {items.map((item, index) => (
         <div
           key={`${item.title}-${index}`}
-          className="border border-white/10 p-5 text-sm text-zinc-400"
+          className="rounded-[18px] border border-white/10 p-5 text-sm text-zinc-400"
         >
           {item.meta ? (
             <p className="font-mono text-[11px] tracking-[0.25em] text-[#1E90FF] uppercase">
@@ -69,7 +69,7 @@ export default async function ServicesPage({
         descriptionHtml={hero.bodyHtml}
       >
         {hero.ctaLabel ? (
-          <Button asChild size="lg" className="rounded-none px-8">
+          <Button asChild size="lg" className="rounded-[10px] px-8">
             <Link href={hero.ctaHref ?? "/contact"}>
               {hero.ctaLabel}
               <ArrowUpRight className="size-4" />
@@ -81,7 +81,7 @@ export default async function ServicesPage({
             asChild
             size="lg"
             variant="outline"
-            className="rounded-none border-zinc-600 bg-transparent text-zinc-100 hover:bg-white/5"
+            className="rounded-[10px] border-zinc-600 bg-transparent text-zinc-100 hover:bg-white/5"
           >
             <Link href={hero.secondaryCtaHref ?? "/work"}>
               {hero.secondaryCtaLabel}
@@ -101,7 +101,7 @@ export default async function ServicesPage({
             </h2>
             <RichText html={intro.bodyHtml} className="mt-4 text-zinc-400" />
           </div>
-          <div className="border border-white/10 p-6">
+          <div className="rounded-[18px] border border-white/10 p-6">
             <p className="font-mono text-xs tracking-[0.3em] text-zinc-500 uppercase">
               What we deliver
             </p>

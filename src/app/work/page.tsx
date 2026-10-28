@@ -72,7 +72,7 @@ export default async function WorkPage({
         descriptionHtml={hero.bodyHtml}
       >
         {hero.ctaLabel ? (
-          <Button asChild size="lg" className="rounded-none px-8">
+          <Button asChild size="lg" className="rounded-[10px] px-8">
             <Link href={hero.ctaHref ?? "/contact"}>
               {hero.ctaLabel}
               <ArrowUpRight className="size-4" />
@@ -84,7 +84,7 @@ export default async function WorkPage({
             asChild
             size="lg"
             variant="outline"
-            className="rounded-none border-zinc-600 bg-transparent text-zinc-100 hover:bg-white/5"
+            className="rounded-[10px] border-zinc-600 bg-transparent text-zinc-100 hover:bg-white/5"
           >
             <Link href={hero.secondaryCtaHref ?? "/work"}>
               {hero.secondaryCtaLabel}
@@ -108,7 +108,7 @@ export default async function WorkPage({
                 className="mt-4 text-zinc-400"
               />
             </div>
-            <div className="relative min-h-[240px] overflow-hidden border border-white/10 lg:col-span-7">
+            <div className="relative min-h-[240px] overflow-hidden rounded-[18px] border border-white/10 lg:col-span-7">
               {experienceImage ? (
                 <Image
                   src={experienceImage}
@@ -144,7 +144,7 @@ export default async function WorkPage({
               .map((item) => (
                 <article
                   key={item.key}
-                  className="grid gap-6 border border-white/10 p-6 md:grid-cols-[minmax(0,1fr)_240px] md:items-center"
+                  className="grid gap-6 rounded-[18px] border border-white/10 p-6 md:grid-cols-[minmax(0,1fr)_240px] md:items-center"
                 >
                   <div>
                     <p className="font-mono text-xs tracking-[0.3em] text-zinc-500 uppercase">
@@ -162,12 +162,12 @@ export default async function WorkPage({
                     <Button
                       asChild
                       variant="outline"
-                      className="mt-6 w-fit rounded-none border-zinc-600 text-zinc-100"
+                      className="mt-6 w-fit rounded-[10px] border-zinc-600 text-zinc-100"
                     >
                       <Link href={item.href}>{item.linkLabel}</Link>
                     </Button>
                   </div>
-                  <div className="relative aspect-[4/3] w-full overflow-hidden border border-white/10 bg-gradient-to-br from-[#1E90FF]/20 to-transparent md:aspect-auto md:h-44 md:w-60">
+                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[18px] border border-white/10 bg-gradient-to-br from-[#1E90FF]/20 to-transparent md:aspect-auto md:h-44 md:w-60">
                     {item.imageUrl ? (
                       <Image
                         src={item.imageUrl}
@@ -204,7 +204,7 @@ export default async function WorkPage({
             {(testimonials.items ?? []).map((item, index) => (
               <article
                 key={`${item.title}-${index}`}
-                className="min-w-[280px] snap-start border border-white/10 p-6 md:min-w-0"
+                className="min-w-[280px] snap-start rounded-[18px] border border-white/10 p-6 md:min-w-0"
               >
                 <p className="text-sm text-zinc-400">
                   &ldquo;{item.description}&rdquo;

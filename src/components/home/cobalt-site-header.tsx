@@ -43,7 +43,7 @@ export function CobaltSiteHeader({
             <Button
               asChild
               size="sm"
-              className={cn("h-8 rounded-none px-4 text-xs", cobaltClass.btn)}
+              className={cn("h-8 rounded-[10px] px-4 text-xs", cobaltClass.btn)}
             >
               <Link href="/dashboard">Dashboard</Link>
             </Button>
@@ -54,7 +54,7 @@ export function CobaltSiteHeader({
                 size="sm"
                 variant="ghost"
                 className={cn(
-                  "h-8 rounded-none px-3 text-xs text-zinc-300",
+                  "h-8 rounded-[10px] px-3 text-xs text-zinc-300",
                   cobaltClass.btnGhostHover,
                 )}
               >
@@ -64,7 +64,7 @@ export function CobaltSiteHeader({
                 asChild
                 size="sm"
                 className={cn(
-                  "h-8 rounded-none border border-[#4682B4]/60 bg-transparent px-3 text-xs text-zinc-100 hover:border-[#1E90FF] hover:bg-white/5",
+                  "h-8 rounded-[10px] border border-[#4682B4]/60 bg-transparent px-3 text-xs text-zinc-100 hover:border-[#1E90FF] hover:bg-white/5",
                 )}
               >
                 <AuthNavLink href="/register">Create Account</AuthNavLink>
