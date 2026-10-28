@@ -1,5 +1,5 @@
 /**
- * One-off seed: 5 published blog posts for Simply Code LLC.
+ * One-off seed: published blog posts for Simply Code LLC.
  * Run: pnpm dlx tsx --env-file=.env scripts/seed-sample-posts.ts
  *
  * Existing posts (matched by slug) get their body content refreshed.
@@ -202,6 +202,148 @@ const samplePosts = [
 <h2>The first 72 hours</h2>
 <p>Launches are not finished when the deploy turns green. We monitor form submissions, auth flows, and background jobs while your team announces the site. If something spikes—404s on an old blog path, webhooks failing—we fix forward with redirects or config patches rather than panicking.</p>
 <p>When this checklist is part of the project plan, go-live feels boring in the best way—and your stakeholders remember the new site, not an outage.</p>`,
+  },
+  {
+    title: "Choosing a CMS that your marketing team will actually use",
+    slug: "choosing-a-cms-your-team-will-use",
+    categories: ["Strategy", "Web Development"],
+    body: `<p>A beautiful site nobody can update becomes a bottleneck within months. We pick content tools based on who publishes day to day—not only on what developers prefer to maintain.</p>
+<p>For most Simply Code clients, that means a dashboard tied to the same Next.js app you ship: pages, blog posts, and forms in one place, with previews before publish and roles that match how your org already works.</p>
+
+<h2>Start with publishing workflows, not feature lists</h2>
+<p>Before comparing products, list what your team changes weekly: hero copy, case studies, blog posts, job listings, pricing tables. Note who needs approval and whether non-technical staff should touch layouts or only text and images.</p>
+<p>Those answers narrow the field quickly. A tool built for e-commerce catalogs is painful for a services firm that mostly edits long-form pages and PDFs.</p>
+
+<h2>What we optimize for</h2>
+<ul>
+<li><strong>Preview links</strong> so stakeholders sign off on real URLs, not screenshots</li>
+<li><strong>Sensible defaults</strong>—new blog posts inherit typography and SEO patterns</li>
+<li><strong>Media handling</strong> with size limits and alt text prompts</li>
+<li><strong>Audit-friendly roles</strong> when multiple people touch production content</li>
+</ul>
+
+<h2>When a headless CMS still makes sense</h2>
+<p>Larger marketing orgs with dedicated content strategists sometimes keep a separate CMS and sync via API. We use that pattern when multiple channels—web, app, email—must share structured content blocks. For a focused company site, an integrated dashboard often ships faster and costs less to operate.</p>
+<blockquote>The best CMS is the one your team opens without filing a ticket to engineering.</blockquote>
+
+<h2>Handoff that sticks</h2>
+<p>We document a short publishing checklist: draft → preview → publish, plus where forms and analytics live. A one-hour working session beats a fifty-page manual nobody reads.</p>
+<p>When the CMS matches real workflows, your site stays fresh—and search engines notice.</p>`,
+  },
+  {
+    title: "Contact forms that reach your inbox (and stay out of spam folders)",
+    slug: "contact-forms-inbox-deliverability",
+    categories: ["Web Development", "Product"],
+    body: `<p>A contact form that silently fails is worse than no form at all. We treat inbound leads as infrastructure: validation, delivery, notifications, and a dashboard paper trail.</p>
+<p>Simply Code sites typically send through transactional email providers with verified domains, not generic SMTP passwords that trigger spam filters on day one.</p>
+
+<h2>What happens when someone hits Send</h2>
+<p>Behind a simple form we usually wire:</p>
+<ol>
+<li>Server-side validation and bot protection (honeypots, rate limits, or CAPTCHA when needed)</li>
+<li>A stored message record your team can review in the dashboard</li>
+<li>Email notification to the right distribution list</li>
+<li>Optional auto-reply so visitors know you received their note</li>
+</ol>
+<p>Storing submissions in the database means you can recover a lead even if email forwarding misconfigured for an hour during launch week.</p>
+
+<h2>Domain and sender reputation</h2>
+<p>We configure SPF, DKIM, and a dedicated From address on a subdomain or root domain you control. Marketing@ and hello@ addresses should match what visitors expect after reading your site—not a no-reply address on a free provider.</p>
+<p>Sandbox modes are great for staging; production keys go live only after DNS is verified.</p>
+
+<h2>Privacy and expectations</h2>
+<p>Forms collect personal data. We align copy with your privacy policy, minimize fields to what sales actually uses, and avoid shipping attachments until virus scanning is accounted for.</p>
+<p>GDPR-style consent checkboxes appear when your counsel requires them—not as decoration on every U.S. services site, but deliberately when they should.</p>
+
+<h2>After launch</h2>
+<p>We test submissions from mobile networks and corporate VPNs, then monitor bounce rates the first week. Small copy tweaks (“We respond within one business day”) reduce duplicate follow-ups and set trust before the first reply.</p>`,
+  },
+  {
+    title: "Maintaining your Next.js site after launch",
+    slug: "maintaining-nextjs-site-after-launch",
+    categories: ["Next.js", "DevOps"],
+    body: `<p>Launch day is a milestone, not the end of the project. Modern Next.js apps on Vercel stay healthy with dependency updates, monitoring, and a light content cadence from your team.</p>
+<p>We set up clients so routine work does not require a developer for every headline change—while engineering time focuses on features that move revenue.</p>
+
+<h2>What “maintenance” actually includes</h2>
+<ul>
+<li><strong>Framework and library updates</strong> on a schedule, not only when something breaks</li>
+<li><strong>Security patches</strong> for auth, forms, and upload endpoints</li>
+<li><strong>Uptime and error monitoring</strong> with alerts that reach someone who can act</li>
+<li><strong>Backups and migration discipline</strong> when the database schema evolves</li>
+</ul>
+<p>Neglecting updates for a year often means a painful catch-up sprint; quarterly check-ins keep diffs small and testable.</p>
+
+<h2>Content vs. code changes</h2>
+<p>Marketing edits—blog posts, page sections, navigation order—should flow through the CMS dashboard. Code changes—new integrations, authenticated areas, pricing calculators—belong in a tracked backlog with staging previews.</p>
+<p>Drawing that line early prevents “quick HTML tweaks” in production that bypass review.</p>
+
+<h2>Performance regressions</h2>
+<p>New scripts, hero videos, and third-party widgets are the usual suspects when Core Web Vitals slip. We baseline metrics at launch and re-check after major campaigns or plugin additions.</p>
+<blockquote>A fast site is a feature you can lose one marketing tag at a time.</blockquote>
+
+<h2>When to engage us post-launch</h2>
+<p>Many clients keep a small retainer for security updates and feature sprints; others call us for quarterly health checks. Either works if someone owns the calendar entry—maintenance deferred is maintenance multiplied.</p>`,
+  },
+  {
+    title: "Rebuild or refresh? How we help you decide",
+    slug: "rebuild-or-refresh-your-website",
+    categories: ["Strategy", "Planning"],
+    body: `<p>Not every dated website needs a ground-up rewrite. Sometimes a focused refresh—new front end on the same content model—delivers most of the value in half the time.</p>
+<p>We compare options against your goals, budget, and how much legacy content and integrations must survive the transition.</p>
+
+<h2>Signals a refresh may be enough</h2>
+<ul>
+<li>Content structure still matches how you sell and support customers</li>
+<li>Backend integrations are stable; pain is mostly visual or mobile UX</li>
+<li>SEO equity lives in URLs you can redirect one-to-one</li>
+<li>Team needs better editing tools more than new product features</li>
+</ul>
+<p>A refresh often means new templates, improved performance, and a CMS—while preserving slugs and analytics history.</p>
+
+<h2>Signals you likely need a rebuild</h2>
+<ul>
+<li>Multiple plugins duplicate the same data or break on every update</li>
+<li>Staff maintain parallel spreadsheets because the site cannot model workflows</li>
+<li>Security or compliance requirements outgrew the original stack</li>
+<li>You are merging brands, locales, or product lines into one platform</li>
+</ul>
+<p>Rebuilds cost more upfront but remove structural debt that refreshes would paper over.</p>
+
+<h2>Hybrid approaches we use</h2>
+<p>Strangler patterns work well: launch a new marketing site on Next.js, keep a legacy app on a subdomain temporarily, migrate authenticated users when the new auth model is proven.</p>
+<p>That avoids a big-bang cutover that marketing and sales dread.</p>
+
+<h2>How we estimate</h2>
+<p>We review analytics, crawl sitemaps, and inventory integrations before quoting. You get a recommendation with trade-offs—not a default “always rebuild” answer because that is how we bill.</p>
+<p>The right choice is the smallest project that meets your next twelve months of goals.</p>`,
+  },
+  {
+    title: "Connecting your website to CRM, email, and scheduling tools",
+    slug: "website-integrations-crm-email-scheduling",
+    categories: ["Product", "Web Development"],
+    body: `<p>Websites generate interest; downstream tools close deals. We connect forms, CTAs, and product events to the systems your sales and success teams already live in.</p>
+<p>Done well, integrations reduce manual copy-paste and give marketing believable attribution. Done poorly, they leak duplicates and break when someone rotates an API key.</p>
+
+<h2>Common integration patterns</h2>
+<ul>
+<li><strong>CRM lead creation</strong> when a contact or demo form submits</li>
+<li><strong>Newsletter signup</strong> with double opt-in where regulations require it</li>
+<li><strong>Scheduling embeds</strong> that pass UTM parameters into booking notes</li>
+<li><strong>Webhooks</strong> from payment or trial flows into Slack or support queues</li>
+</ul>
+<p>We prefer server-side calls so secrets never ship to the browser, and we log failures for replay when a vendor times out.</p>
+
+<h2>Data mapping and duplicates</h2>
+<p>Before writing code, we agree on field mapping: which form answers become CRM properties, how to dedupe by email, and what happens when the CRM is down—queue, retry, or alert a human.</p>
+<p>Marketing wants every field; sales wants clean records. The mapping conversation aligns both sides early.</p>
+
+<h2>Staging vs. production sandboxes</h2>
+<p>Most SaaS tools offer test workspaces. We wire staging forms to sandbox APIs so QA does not pollute real pipelines. Cutover is a config swap, not a rewrite.</p>
+
+<h2>Ownership after handoff</h2>
+<p>We document which API keys live in Vercel, who rotates them, and which dashboard shows failed deliveries. Integrations are living systems—not set-and-forget wiring.</p>
+<p>When your site and CRM agree on what a lead is, your team spends time closing—not reconciling spreadsheets.</p>`,
   },
 ];
 

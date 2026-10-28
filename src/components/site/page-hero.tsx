@@ -1,5 +1,6 @@
 import { cn } from "~/lib/utils";
 import { RichText } from "~/components/site/rich-text";
+import { heroSectionEndClassName } from "~/lib/site/hero-section";
 
 export function PageHero({
   eyebrow,
@@ -18,10 +19,7 @@ export function PageHero({
 }) {
   return (
     <section
-      className={cn(
-        "relative overflow-hidden border-b border-white/10",
-        className,
-      )}
+      className={cn("relative overflow-hidden", heroSectionEndClassName, className)}
     >
       <div className="mx-auto max-w-7xl px-6 py-16 md:py-24">
         {eyebrow ? (

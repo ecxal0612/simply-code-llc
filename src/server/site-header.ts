@@ -1,5 +1,6 @@
 import "server-only";
 
+import { connection } from "next/server";
 import { eq } from "drizzle-orm";
 import {
   DEFAULT_HEADER_NAV_PATHS,
@@ -81,6 +82,7 @@ export async function resolveHeaderNavItems(): Promise<SiteNavItem[]> {
 }
 
 export async function getSiteLogoUrl(): Promise<string | null> {
+  await connection();
   const row = await db.query.images.findFirst({
     where: eq(images.slot, SITE_LOGO_SLOT),
     columns: { url: true },

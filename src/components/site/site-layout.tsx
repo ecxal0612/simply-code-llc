@@ -1,9 +1,18 @@
 import { SiteFooter } from "~/components/site/site-footer";
 import { SiteHeader } from "~/components/site/site-header";
 import { auth } from "~/lib/auth";
+import { getSiteLogoUrl } from "~/server/site-header";
 
-export async function SiteLayout({ children }: { children: React.ReactNode }) {
+export async function SiteLayout({
+  children,
+  homeNavigationEffects,
+}: {
+  children: React.ReactNode;
+  /** Home-only scroll / anchor helpers rendered above the header. */
+  homeNavigationEffects?: React.ReactNode;
+}) {
   const session = await auth();
+  const logoUrl = await getSiteLogoUrl();
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100">
@@ -16,9 +25,10 @@ export async function SiteLayout({ children }: { children: React.ReactNode }) {
         }}
         aria-hidden
       />
-      <SiteHeader isLoggedIn={!!session?.user} />
+      {homeNavigationEffects}
+      <SiteHeader isLoggedIn={!!session?.user} logoUrl={logoUrl} />
       <main>{children}</main>
-      <SiteFooter />
+      <SiteFooter logoUrl={logoUrl} />
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
 import { z } from "zod";
@@ -122,6 +123,18 @@ export const ourFileRouter = {
         size: file.size,
         mimeType: file.type,
       });
+
+      for (const path of [
+        "/",
+        "/about",
+        "/services",
+        "/work",
+        "/blog",
+        "/contact",
+        "/privacy-policy",
+      ]) {
+        revalidatePath(path);
+      }
 
       return { uploadedBy: metadata.userId, url: file.ufsUrl ?? file.url };
     }),

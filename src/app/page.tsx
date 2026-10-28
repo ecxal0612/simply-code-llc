@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { CobaltHomepage } from "~/components/home/cobalt-homepage";
-import { auth } from "~/lib/auth";
+import { HomeNavigationEffects } from "~/components/home/home-navigation-effects";
+import { SiteLayout } from "~/components/site/site-layout";
 import { getPageForViewer, type PageSearchParams } from "~/server/page-preview";
 import { getImageUrlsForSections } from "~/server/pages";
 import { getProjectsMapForPageSections } from "~/server/projects";
@@ -17,7 +18,6 @@ export default async function HomePage({
 }: {
   searchParams: PageSearchParams;
 }) {
-  const session = await auth();
   const page = await getPageForViewer("/", searchParams);
   if (!page) notFound();
 
@@ -27,11 +27,8 @@ export default async function HomePage({
   ]);
 
   return (
-    <CobaltHomepage
-      isLoggedIn={!!session?.user}
-      page={page}
-      images={images}
-      projectsById={projectsById}
-    />
+    <SiteLayout homeNavigationEffects={<HomeNavigationEffects />}>
+      <CobaltHomepage page={page} images={images} projectsById={projectsById} />
+    </SiteLayout>
   );
 }
