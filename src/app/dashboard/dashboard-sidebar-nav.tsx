@@ -48,9 +48,13 @@ export type DashboardNavSection = {
 
 type DashboardSidebarNavProps = {
   sections: DashboardNavSection[];
+  onNavigate?: () => void;
 };
 
-export function DashboardSidebarNav({ sections }: DashboardSidebarNavProps) {
+export function DashboardSidebarNav({
+  sections,
+  onNavigate,
+}: DashboardSidebarNavProps) {
   const pathname = usePathname();
   const onMessagesRoute = pathname.startsWith("/dashboard/messages");
   const [unreadIds, setUnreadIds] = useState<string[]>([]);
@@ -89,10 +93,10 @@ export function DashboardSidebarNav({ sections }: DashboardSidebarNavProps) {
   const showMessagesBadge = pendingCount > 0 && !onMessagesRoute;
 
   return (
-    <nav className="flex-1 space-y-6 p-4">
+    <nav className="flex flex-1 flex-col space-y-6 p-3 sm:p-4">
       {sections.map((section) => (
         <div key={section.title} className="space-y-1">
-          <p className="text-muted-foreground px-3 text-[11px] font-semibold uppercase tracking-wider">
+          <p className="px-3 text-[10px] font-semibold tracking-[0.2em] text-white/40 uppercase">
             {section.title}
           </p>
           {section.items.map((item) => {
@@ -108,18 +112,25 @@ export function DashboardSidebarNav({ sections }: DashboardSidebarNavProps) {
               <Link
                 key={item.href}
                 href={item.href}
+                onClick={() => onNavigate?.()}
                 className={cn(
-                  "hover:bg-muted hover:text-foreground flex items-center gap-2 rounded-md px-3 py-2 text-sm transition",
+                  "relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition",
                   isActive
-                    ? "bg-muted text-foreground font-medium"
-                    : "text-muted-foreground",
+                    ? "bg-[#1e90ff]/15 font-medium text-white"
+                    : "text-white/60 hover:bg-white/5 hover:text-white",
                 )}
               >
-                <Icon className="size-4 shrink-0" />
+                {isActive ? (
+                  <span
+                    className="absolute top-1/2 left-0 h-6 w-1 -translate-y-1/2 rounded-r-full bg-[#1e90ff]"
+                    aria-hidden
+                  />
+                ) : null}
+                <Icon className="size-[18px] shrink-0" />
                 <span className="min-w-0 flex-1 truncate">{item.label}</span>
                 {showBadge ? (
                   <span
-                    className="bg-primary size-2 shrink-0 rounded-full"
+                    className="size-2 shrink-0 rounded-full bg-[#1e90ff]"
                     aria-label={`${pendingCount} unread messages`}
                     title={`${pendingCount} unread message${pendingCount === 1 ? "" : "s"}`}
                   />

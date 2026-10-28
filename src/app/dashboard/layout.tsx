@@ -1,17 +1,15 @@
-import Link from "next/link";
-import { ExternalLink, Home, Menu } from "lucide-react";
 import {
-  DashboardSidebarNav,
+  DashboardShell,
+} from "~/app/dashboard/dashboard-shell";
+import {
   type DashboardNavIconKey,
   type DashboardNavSection,
 } from "~/app/dashboard/dashboard-sidebar-nav";
-import { SignOutButton } from "~/components/sign-out-button";
-import { SiteBrandLogo } from "~/components/site/site-brand-logo";
 import { auth } from "~/lib/auth";
 import { isAdminRole } from "~/lib/auth/roles";
 import { homeCopy } from "~/lib/home/content";
-import { Button } from "~/components/ui/button";
 import { getSiteLogoUrl } from "~/server/site-header";
+import "~/styles/dashboard.css";
 
 export const dynamic = "force-dynamic";
 
@@ -84,47 +82,13 @@ export default async function DashboardLayout({
     .filter((section) => section.items.length > 0);
 
   return (
-    <div className="bg-background min-h-screen">
-      <div className="flex">
-        <aside className="bg-card sticky top-0 flex h-screen w-64 shrink-0 flex-col overflow-y-auto border-r max-lg:hidden">
-          <div className="flex h-16 items-center border-b px-6">
-            <Link href="/" className="flex items-center gap-2">
-              <SiteBrandLogo
-                brand={homeCopy.brand}
-                logoUrl={logoUrl}
-                variant="dashboard"
-              />
-            </Link>
-          </div>
-          <DashboardSidebarNav sections={visibleSections} />
-          <div className="space-y-3 border-t p-4">
-            <Button asChild variant="outline" size="sm" className="w-full">
-              <Link href="/" target="_blank" rel="noreferrer">
-                <Home className="mr-2 size-4" />
-                View homepage
-                <ExternalLink className="ml-auto size-3.5 opacity-60" />
-              </Link>
-            </Button>
-            <p className="text-muted-foreground text-xs">
-              Signed in as {session?.user.email}
-            </p>
-          </div>
-        </aside>
-        <div className="flex flex-1 flex-col">
-          <header className="flex h-16 items-center justify-between border-b px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center gap-2">
-              <Button variant="ghost" size="icon" className="lg:hidden">
-                <Menu className="size-4" />
-              </Button>
-              <p className="text-sm font-medium">Dashboard</p>
-            </div>
-            <div className="flex items-center gap-2">
-              <SignOutButton />
-            </div>
-          </header>
-          <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8">{children}</main>
-        </div>
-      </div>
-    </div>
+    <DashboardShell
+      sections={visibleSections}
+      userEmail={session?.user.email}
+      logoUrl={logoUrl}
+      brand={homeCopy.brand}
+    >
+      {children}
+    </DashboardShell>
   );
 }

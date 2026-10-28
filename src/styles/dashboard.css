@@ -1,0 +1,161 @@
+/* Scoped to /dashboard — modern card UI, dark sidebar, light canvas */
+
+.dashboard-shell {
+  --dashboard-canvas: #f5f6f8;
+  --dashboard-surface: #ffffff;
+  --dashboard-sidebar: #1c1f26;
+  --dashboard-sidebar-border: rgba(255, 255, 255, 0.08);
+  --dashboard-sidebar-muted: rgba(255, 255, 255, 0.55);
+  --dashboard-sidebar-text: rgba(255, 255, 255, 0.92);
+  --dashboard-accent: #1e90ff;
+  --dashboard-accent-soft: rgba(30, 144, 255, 0.14);
+  --dashboard-radius: 25px;
+  --dashboard-shadow: 0 8px 32px rgba(15, 23, 42, 0.06);
+  --dashboard-border: rgba(15, 23, 42, 0.06);
+  background: var(--dashboard-canvas);
+  color: #0f172a;
+}
+
+.dashboard-shell .dashboard-main {
+  background: var(--dashboard-canvas);
+}
+
+.dashboard-sidebar {
+  background: var(--dashboard-sidebar);
+  border-color: var(--dashboard-sidebar-border);
+  color: var(--dashboard-sidebar-text);
+}
+
+.dashboard-sidebar-brand {
+  border-color: var(--dashboard-sidebar-border);
+}
+
+.dashboard-sidebar-footer {
+  border-color: var(--dashboard-sidebar-border);
+}
+
+.dashboard-sidebar .dashboard-sidebar-muted {
+  color: var(--dashboard-sidebar-muted);
+}
+
+.dashboard-top-header {
+  background: var(--dashboard-surface);
+  border-color: var(--dashboard-border);
+  box-shadow: var(--dashboard-shadow);
+}
+
+.dashboard-shell select,
+.dashboard-shell textarea {
+  border-radius: 18px;
+}
+
+.dashboard-shell a[href],
+.dashboard-shell button:not(:disabled),
+.dashboard-shell [role="button"]:not([aria-disabled="true"]),
+.dashboard-shell label[for],
+.dashboard-shell summary {
+  cursor: pointer;
+}
+
+.dashboard-shell button:disabled,
+.dashboard-shell [aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
+.dashboard-sign-out {
+  background: var(--dashboard-accent);
+  color: #fff;
+  border: none;
+  font-weight: 500;
+  box-shadow: var(--dashboard-shadow);
+}
+
+.dashboard-sign-out:hover {
+  background: #1876d2;
+}
+
+/* Cards & information surfaces (main content) */
+.dashboard-shell .dashboard-main .bg-card,
+.dashboard-shell .dashboard-main [class*="bg-card"],
+.dashboard-shell .dashboard-main .rounded-lg.border,
+.dashboard-shell .dashboard-main .rounded-xl.border,
+.dashboard-shell .dashboard-main .rounded-2xl.border,
+.dashboard-shell .dashboard-main .rounded-md.border,
+.dashboard-welcome,
+.dashboard-shortcut {
+  border-radius: var(--dashboard-radius) !important;
+  box-shadow: var(--dashboard-shadow) !important;
+}
+
+.dashboard-shell .dashboard-main .bg-card,
+.dashboard-shell .dashboard-main [class*="bg-card"],
+.dashboard-shell .dashboard-main .rounded-lg.border,
+.dashboard-shell .dashboard-main .rounded-xl.border,
+.dashboard-shell .dashboard-main .rounded-2xl.border,
+.dashboard-shell .dashboard-main .rounded-md.border {
+  background: var(--dashboard-surface);
+  border-color: var(--dashboard-border) !important;
+}
+
+.dashboard-welcome {
+  background: var(--dashboard-surface);
+  border: 1px solid var(--dashboard-border);
+}
+
+.dashboard-welcome-accent {
+  border-radius: var(--dashboard-radius);
+  background: linear-gradient(
+    135deg,
+    rgba(30, 144, 255, 0.12) 0%,
+    rgba(30, 144, 255, 0.02) 55%,
+    transparent 100%
+  );
+}
+
+.dashboard-stat-icon {
+  background: var(--dashboard-accent-soft);
+  color: var(--dashboard-accent);
+  border-radius: 14px;
+}
+
+.dashboard-shortcut {
+  border-color: var(--dashboard-border);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.dashboard-shortcut:hover {
+  border-color: rgba(30, 144, 255, 0.35);
+}
+
+.dashboard-shell .text-primary {
+  color: var(--dashboard-accent);
+}
+
+.dashboard-shell .bg-primary {
+  background-color: var(--dashboard-accent);
+}
+
+.dashboard-shell .hover\:bg-primary\/90:hover {
+  background-color: #1876d2;
+}
+
+.dashboard-sidebar a[href],
+.dashboard-sidebar button:not(:disabled) {
+  cursor: pointer;
+}
+
+.dashboard-mobile-drawer {
+  background: var(--dashboard-sidebar);
+}
+
+.dashboard-overlay {
+  background: rgba(15, 23, 42, 0.45);
+}
+
+@media (max-width: 1023px) {
+  .dashboard-shell .dashboard-main {
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+}

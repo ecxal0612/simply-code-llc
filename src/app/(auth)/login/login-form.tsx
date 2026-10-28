@@ -56,7 +56,7 @@ export function LoginForm() {
   return (
     <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
       {accessRevoked ? (
-        <p className="rounded-[18px] border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-sm text-amber-800 dark:text-amber-200">
+        <p className="rounded-[10px] border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-sm text-amber-800 dark:text-amber-200">
           {accessRevokedMessage}
         </p>
       ) : null}
@@ -75,7 +75,7 @@ export function LoginForm() {
         ) : null}
       </div>
       <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-        {form.formState.isSubmitting ? "Signing in…" : "Sign in with email"}
+        {form.formState.isSubmitting ? "Logging in…" : "Log in"}
       </Button>
       <Button
         type="button"
@@ -83,7 +83,7 @@ export function LoginForm() {
         className="w-full"
         onClick={() => void signIn("google", { callbackUrl })}
       >
-        Continue with Google
+        Sign in with Google
       </Button>
     </form>
   );

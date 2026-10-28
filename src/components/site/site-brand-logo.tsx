@@ -23,8 +23,8 @@ export function SiteBrandLogo({
   wordmarkClassName,
 }: SiteBrandLogoProps) {
   const fallbackClassName =
-    variant === "dashboard"
-      ? "bg-primary/10 text-primary flex size-8 items-center justify-center rounded-[18px] font-mono text-xs font-bold"
+      variant === "dashboard"
+      ? "bg-[#1e90ff]/20 text-[#1e90ff] flex size-8 items-center justify-center rounded-[10px] font-mono text-xs font-bold"
       : cn(
           "flex size-8 items-center justify-center rounded-[18px] font-mono text-xs font-bold",
           cobaltClass.logo,

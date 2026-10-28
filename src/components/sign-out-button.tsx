@@ -1,15 +1,17 @@
-import { signOut } from "~/lib/auth";
+"use client";
+
+import { signOutAction } from "~/components/sign-out-action";
 import { Button } from "~/components/ui/button";
 
-export function SignOutButton() {
+export function SignOutButton({ className }: { className?: string }) {
   return (
-    <form
-      action={async () => {
-        "use server";
-        await signOut({ redirectTo: "/" });
-      }}
-    >
-      <Button type="submit" variant="outline" size="sm">
+    <form action={signOutAction}>
+      <Button
+        type="submit"
+        variant={className ? "default" : "outline"}
+        size="sm"
+        className={className}
+      >
         Sign out
       </Button>
     </form>
