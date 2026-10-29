@@ -53,7 +53,7 @@ export function ProjectForm({ project }: { project?: EditableProject }) {
   }
 
   async function uploadPendingPhoto(previousUrl: string) {
-    if (!pendingImageFile) return imageUrl || undefined;
+    if (!pendingImageFile) return imageUrl.trim() || null;
     const uploaded = await startUpload([pendingImageFile]);
     const url = uploaded?.[0]?.ufsUrl ?? uploaded?.[0]?.url;
     if (!url) throw new Error("Upload did not return a URL");
@@ -109,23 +109,34 @@ export function ProjectForm({ project }: { project?: EditableProject }) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             title: title.trim(),
-            description: description.trim() || undefined,
-            label: label.trim() || undefined,
-            projectDate: projectDate.trim() || undefined,
-            imageUrl: nextImageUrl || undefined,
+            description: description.trim() ? description.trim() : null,
+            label: label.trim() ? label.trim() : null,
+            projectDate: projectDate.trim() ? projectDate.trim() : null,
+            imageUrl: nextImageUrl,
             links: normalizedLinks,
           }),
         },
       );
       const data = (await res.json().catch(() => null)) as {
-        project?: { id: string };
+        project?: EditableProject;
         error?: string;
       } | null;
       if (!res.ok || !data?.project) {
         throw new Error(data?.error ?? "Could not save project");
       }
 
-      if (nextImageUrl) setImageUrl(nextImageUrl);
+      const saved = data.project;
+      setTitle(saved.title);
+      setDescription(saved.description ?? "");
+      setLabel(saved.label ?? "");
+      setProjectDate(saved.projectDate ?? "");
+      setImageUrl(nextImageUrl ?? saved.imageUrl ?? "");
+      setLinks(
+        saved.links?.length
+          ? saved.links
+          : [{ label: "View Project", url: "https://" }],
+      );
+
       if (previewUrl) URL.revokeObjectURL(previewUrl);
       setPreviewUrl(null);
       setPendingImageFile(null);

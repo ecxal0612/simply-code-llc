@@ -159,3 +159,16 @@
     padding-bottom: env(safe-area-inset-bottom, 0);
   }
 }
+
+/* Page editor: team / project pickers — unavailable options */
+.dashboard-shell .picker-select option:disabled,
+.dashboard-shell .picker-select-option-unavailable {
+  color: #94a3b8;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dashboard-shell .picker-select:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}

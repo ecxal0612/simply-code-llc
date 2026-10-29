@@ -159,13 +159,20 @@ export default async function WorkPage({
                       }
                       className="mt-2 text-sm text-zinc-400"
                     />
-                    <Button
-                      asChild
-                      variant="outline"
-                      className="mt-6 w-fit rounded-[10px] border-zinc-600 text-zinc-100"
-                    >
-                      <Link href={item.href}>{item.linkLabel}</Link>
-                    </Button>
+                    <div className="mt-6 flex flex-wrap gap-2">
+                      {item.links.map((link) => (
+                        <Button
+                          key={`${link.href}-${link.label}`}
+                          asChild
+                          variant="outline"
+                          className="w-fit rounded-[10px] border-zinc-600 text-zinc-100"
+                        >
+                          <a href={link.href} target="_blank" rel="noreferrer">
+                            {link.label}
+                          </a>
+                        </Button>
+                      ))}
+                    </div>
                   </div>
                   <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[18px] border border-white/10 bg-gradient-to-br from-[#1E90FF]/20 to-transparent md:aspect-auto md:h-44 md:w-60">
                     {item.imageUrl ? (

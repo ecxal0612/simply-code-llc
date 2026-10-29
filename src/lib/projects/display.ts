@@ -11,19 +11,36 @@ export type ProjectSource = {
   links: ProjectLink[];
 };
 
+export type ResolvedProjectLink = {
+  label: string;
+  href: string;
+};
+
 export type ResolvedProjectCard = {
   key: string;
   title: string;
   description: string;
   meta: string;
-  href: string;
-  linkLabel: string;
+  links: ResolvedProjectLink[];
   imageUrl: string | null;
 };
 
 function buildMeta(label: string | null, projectDate: string | null): string {
   const parts = [label?.trim(), projectDate?.trim()].filter(Boolean);
   return parts.join(" · ") || "Project";
+}
+
+function resolveProjectLinks(links: ProjectLink[]): ResolvedProjectLink[] {
+  const normalized = links
+    .map((link) => ({
+      label: link.label.trim(),
+      href: link.url.trim(),
+    }))
+    .filter((link) => link.label && link.href);
+
+  if (normalized.length > 0) return normalized;
+
+  return [{ label: "View Project", href: "/contact" }];
 }
 
 export function resolveProjectSectionItem(
@@ -34,14 +51,12 @@ export function resolveProjectSectionItem(
   if (item.projectId) {
     const project = projectsById.get(item.projectId);
     if (!project) return null;
-    const primaryLink = project.links[0];
     return {
       key: project.id,
       title: project.title,
       description: project.description ?? "",
       meta: buildMeta(project.label, project.projectDate),
-      href: primaryLink?.url ?? "/contact",
-      linkLabel: primaryLink?.label ?? "View Project",
+      links: resolveProjectLinks(project.links),
       imageUrl: project.imageUrl,
     };
   }
@@ -52,8 +67,11 @@ export function resolveProjectSectionItem(
     title: item.title,
     description: item.description ?? "",
     meta: item.meta?.trim() || "Project",
-    href: item.href ?? "/contact",
-    linkLabel: "View Project",
+    links: resolveProjectLinks(
+      item.href?.trim()
+        ? [{ label: "View Project", url: item.href }]
+        : [],
+    ),
     imageUrl: null,
   };
 }

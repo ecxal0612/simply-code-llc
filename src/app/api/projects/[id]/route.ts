@@ -49,10 +49,17 @@ export async function PATCH(
   const { id } = await params;
   const project = await updateProject(id, {
     title: parsed.data.title,
-    description: parsed.data.description,
-    label: parsed.data.label,
-    projectDate: parsed.data.projectDate,
-    imageUrl: parsed.data.imageUrl === "" ? null : parsed.data.imageUrl,
+    description:
+      parsed.data.description === undefined ? undefined : parsed.data.description,
+    label: parsed.data.label === undefined ? undefined : parsed.data.label,
+    projectDate:
+      parsed.data.projectDate === undefined ? undefined : parsed.data.projectDate,
+    imageUrl:
+      parsed.data.imageUrl === undefined
+        ? undefined
+        : parsed.data.imageUrl === "" || parsed.data.imageUrl === null
+          ? null
+          : parsed.data.imageUrl,
     links: parsed.data.links,
   });
 

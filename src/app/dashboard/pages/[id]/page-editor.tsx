@@ -431,22 +431,26 @@ function ProjectsPickerEditor({
                   onChange={(event) =>
                     updateProject(index, event.target.value)
                   }
-                  className="border-input focus-visible:ring-ring flex h-9 w-full border bg-transparent px-3 py-1 text-sm shadow-sm focus-visible:ring-2 focus-visible:outline-none"
+                  className="border-input focus-visible:ring-ring picker-select flex h-9 w-full border bg-transparent px-3 py-1 text-sm shadow-sm focus-visible:ring-2 focus-visible:outline-none"
                 >
                   <option value="">Select a project</option>
-                  {projects.map((project) => (
-                    <option
-                      key={project.id}
-                      value={project.id}
-                      disabled={
-                        selectedIds.has(project.id) &&
-                        project.id !== item.projectId
-                      }
-                    >
-                      {project.title}
-                      {project.label ? ` — ${project.label}` : ""}
-                    </option>
-                  ))}
+                  {projects.map((project) => {
+                    const unavailable =
+                      selectedIds.has(project.id) &&
+                      project.id !== item.projectId;
+                    return (
+                      <option
+                        key={project.id}
+                        value={project.id}
+                        disabled={unavailable}
+                        className={unavailable ? "picker-select-option-unavailable" : undefined}
+                      >
+                        {project.title}
+                        {project.label ? ` — ${project.label}` : ""}
+                        {unavailable ? " (already selected)" : ""}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
               <Button
@@ -554,22 +558,28 @@ function TeamMembersEditor({
                   id={`team-member-${index}`}
                   value={item.memberId ?? ""}
                   onChange={(event) => updateMember(index, event.target.value)}
-                  className="border-input focus-visible:ring-ring flex h-9 w-full border bg-transparent px-3 py-1 text-sm shadow-sm focus-visible:ring-2 focus-visible:outline-none"
+                  className="border-input focus-visible:ring-ring picker-select flex h-9 w-full border bg-transparent px-3 py-1 text-sm shadow-sm focus-visible:ring-2 focus-visible:outline-none"
                 >
                   <option value="">Select a team member</option>
-                  {members.map((member) => (
-                    <option
-                      key={member.id}
-                      value={member.id}
-                      disabled={
-                        selectedIds.has(member.id) &&
-                        member.id !== item.memberId
-                      }
-                    >
-                      {member.name}
-                      {member.role ? ` — ${member.role}` : ""}
-                    </option>
-                  ))}
+                  {members.map((member) => {
+                    const unavailable =
+                      selectedIds.has(member.id) &&
+                      member.id !== item.memberId;
+                    return (
+                      <option
+                        key={member.id}
+                        value={member.id}
+                        disabled={unavailable}
+                        className={
+                          unavailable ? "picker-select-option-unavailable" : undefined
+                        }
+                      >
+                        {member.name}
+                        {member.role ? ` — ${member.role}` : ""}
+                        {unavailable ? " (already selected)" : ""}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
               <Button

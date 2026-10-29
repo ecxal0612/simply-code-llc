@@ -477,6 +477,24 @@ export function CobaltHomepage({
                   <p className="mt-2 text-sm text-zinc-400">
                     {item.description}
                   </p>
+                  {item.links.length > 0 ? (
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {item.links.map((link) => (
+                        <Button
+                          key={`${link.href}-${link.label}`}
+                          asChild
+                          variant="outline"
+                          size="sm"
+                          className="rounded-[10px] border-zinc-700 text-zinc-300 hover:bg-white/5"
+                        >
+                          <a href={link.href} target="_blank" rel="noreferrer">
+                            {link.label}
+                            <ArrowUpRight className="size-3.5" />
+                          </a>
+                        </Button>
+                      ))}
+                    </div>
+                  ) : null}
                 </div>
               </article>
             ))}
